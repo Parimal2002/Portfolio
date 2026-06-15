@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catch My Heart ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+    overflow:hidden;
+}
+
+h1{
+    text-align:center;
+    color:#fff;
+    margin:15px 0;
+    text-shadow:2px 2px 5px rgba(0,0,0,.2);
+}
+
+#score{
+    position:absolute;
+    top:20px;
+    left:20px;
+    color:#fff;
+    font-size:24px;
+    font-weight:bold;
+}
+
+#gameArea{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+}
+
+.heart{
+    position:absolute;
+    font-size:35px;
+    user-select:none;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    from{
+        transform:translateY(-50px);
+    }
+    to{
+        transform:translateY(110vh);
+    }
+}
+
+#basket{
+    position:absolute;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:70px;
+    transition:left .08s linear;
+    user-select:none;
+}
+
+#message{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:rgba(255,255,255,.95);
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    display:none;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+#message h2{
+    color:#ff3b6f;
+    margin-bottom:10px;
+}
+
+#restartBtn{
+    margin-top:15px;
+    padding:10px 20px;
+    border:none;
+    border-radius:30px;
+    background:#ff3b6f;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>❤️ Catch My Heart ❤️</h1>
+<div id="score">Score: 0</div>
+
+<div id="gameArea">
+    <div id="basket">🧸</div>
+
+    <div id="message">
+        <h2>You Caught My Heart! ❤️</h2>
+        <p>No matter what happens,<br>
+        my heart will always belong to you. 💖</p>
+        <button id="restartBtn">Play Again</button>
+    </div>
+</div>
+
+<script>
+const gameArea = document.getElementById("gameArea");
+const basket = document.getElementById("basket");
+const scoreText = document.getElementById("score");
+const message = document.getElementById("message");
+const restartBtn = document.getElementById("restartBtn");
+
+let basketX = window.innerWidth / 2;
+let score = 0;
+let gameRunning = true;
+
+// Move basket with keyboard
+document.addEventListener("keydown", (e)=>{
+    if(!gameRunning) return;
+
+    if(e.key === "ArrowLeft"){
+        basketX -= 35;
+    }
+    if(e.key === "ArrowRight"){
+        basketX += 35;
+    }
+
+    basketX = Math.max(40, Math.min(window.innerWidth - 40, basketX));
+    basket.style.left = basketX + "px";
+});
+
+// Mobile touch movement
+gameArea.addEventListener("touchmove", (e)=>{
+    if(!gameRunning) return;
+    basketX = e.touches[0].clientX;
+    basket.style.left = basketX + "px";
+});
+
+function createHeart(){
+    if(!gameRunning) return;
+
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+
+    const icons = ["❤️","💖","💕","💗","🌹"];
+    heart.innerHTML = icons[Math.floor(Math.random()*icons.length)];
+
+    const left = Math.random() * (window.innerWidth - 40);
+    heart.style.left = left + "px";
+
+    const duration = 3 + Math.random()*2;
+    heart.style.animationDuration = duration + "s";
+
+    gameArea.appendChild(heart);
+
+    let fall = setInterval(()=>{
+        const heartRect = heart.getBoundingClientRect();
+        const basketRect = basket.getBoundingClientRect();
+
+        if(
+            heartRect.bottom >= basketRect.top &&
+            heartRect.left < basketRect.right &&
+            heartRect.right > basketRect.left
+        ){
+            score++;
+            scoreText.innerHTML = "Score: " + score;
+            heart.remove();
+            clearInterval(fall);
+
+            if(score >= 20){
+                endGame();
+            }
+        }
+
+        if(heartRect.top > window.innerHeight){
+            heart.remove();
+            clearInterval(fall);
+        }
+    },20);
+}
+
+function endGame(){
+    gameRunning = false;
+    message.style.display = "block";
+}
+
+restartBtn.addEventListener("click", ()=>{
+    score = 0;
+    scoreText.innerHTML = "Score: 0";
+    message.style.display = "none";
+    gameRunning = true;
+
+    document.querySelectorAll(".heart").forEach(h=>h.remove());
+});
+
+setInterval(()=>{
+    if(gameRunning){
+        createHeart();
+    }
+},700);
+
+</script>
+
+</body>
+</html>

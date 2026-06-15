@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Marry Me? ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(180deg,#ffdbe9,#fff7fb,#ffe1ef);
+    overflow-x:hidden;
+    color:#5f3750;
+}
+
+/* Progress Bar */
+
+#bar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:0%;
+    height:6px;
+    background:#ff4f8b;
+    z-index:9999;
+}
+
+/* Floating Hearts */
+
+#hearts{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:999;
+}
+
+.item{
+    position:fixed;
+    top:-50px;
+    pointer-events:none;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    from{
+        transform:translateY(-10vh) rotate(0deg);
+        opacity:1;
+    }
+    to{
+        transform:translateY(110vh) rotate(360deg);
+        opacity:0.2;
+    }
+}
+
+/* Section */
+
+section{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:50px 8%;
+}
+
+.card{
+    width:100%;
+    max-width:900px;
+    background:rgba(255,255,255,.6);
+    backdrop-filter:blur(10px);
+    padding:35px;
+    border-radius:30px;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+    animation:fade .8s ease;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+h1,h2{
+    font-family:"Great Vibes",cursive;
+    color:#e91e63;
+    text-align:center;
+}
+
+h1{
+    font-size:4.3rem;
+}
+
+h2{
+    font-size:3rem;
+    margin-bottom:15px;
+}
+
+p{
+    line-height:1.9;
+    text-align:center;
+    margin:15px 0;
+}
+
+.glow{
+    animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+    from{
+        text-shadow:0 0 8px white;
+    }
+    to{
+        text-shadow:0 0 20px #ff3b85;
+    }
+}
+
+.btn{
+    padding:14px 28px;
+    border:none;
+    border-radius:50px;
+    background:#ff5f97;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+    font-size:16px;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+}
+
+.buttonBox{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-top:25px;
+    height:90px;
+    position:relative;
+}
+
+#proposalText{
+    display:none;
+    color:#d81b60;
+    margin-top:20px;
+    font-size:1.1rem;
+    font-weight:600;
+}
+
+#reasons{
+    margin:25px 0;
+    min-height:60px;
+    color:#d81b60;
+    font-size:1.15rem;
+    font-weight:600;
+    text-align:center;
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="bar"></div>
+<div id="hearts"></div>
+
+<section>
+
+<div class="card">
+
+<h2>My Final Question 💍</h2>
+
+<p>
+You became my Annapurna,
+my best friend,
+my peace,
+my family,
+and the person who turned ordinary moments
+into the most beautiful memories of my life.
+</p>
+
+<p>
+From TCS,
+to our office smiles,
+to our lunch together,
+to our evening station walks,
+to teaching you how to ride a scooty,
+every little memory became a reason
+for me to fall in love with you even more.
+</p>
+
+<p>
+Sometimes we were 90-10.
+Sometimes 50-50.
+Sometimes 10-90.
+But the most beautiful thing about us
+is that we never gave up.
+No matter how many fights we had,
+we always found our way back to each other.
+</p>
+
+<div id="reasons">
+❤️ Because you always care for me.
+</div>
+
+<h1 class="glow">
+Will You Marry Me?
+</h1>
+
+<div class="buttonBox">
+
+<button class="btn" onclick="answer()">
+Yes, Forever ❤️
+</button>
+
+<button class="btn" id="noBtn" onmouseover="moveNo()">
+No 😅
+</button>
+
+</div>
+
+<p id="proposalText">
+Thank you for every smile,
+every lunch,
+every station goodbye,
+every little fight that ended with love,
+and every moment you made me feel
+that I was never alone.
+I promise to support you,
+respect you,
+love you,
+and choose you every single day.
+Happy Birthday, My Love. 🌹❤️
+</p>
+
+</div>
+
+</section>
+
+<script>
+
+// ---------------- ROTATING REASONS ----------------
+
+const reasons = [
+"❤️ Because you always care for me.",
+"😊 Because your smile brightens my day.",
+"🍱 Because you made lunch for me with love.",
+"🌸 Because you always support me.",
+"🚉 Because every station goodbye made me love you more.",
+"🛵 Because our scooty memories are priceless.",
+"💍 Because I can imagine my whole future with you."
+];
+
+let currentReason = 0;
+
+setInterval(function(){
+
+    let box = document.getElementById("reasons");
+
+    if(box){
+        box.innerHTML = reasons[currentReason];
+        currentReason++;
+
+        if(currentReason >= reasons.length){
+            currentReason = 0;
+        }
+    }
+
+},2500);
+
+// ---------------- SCROLL PROGRESS ----------------
+
+window.addEventListener("scroll",function(){
+
+    let bar = document.getElementById("bar");
+
+    let totalHeight =
+    document.documentElement.scrollHeight -
+    window.innerHeight;
+
+    if(totalHeight>0){
+        let progress =
+        (window.scrollY/totalHeight)*100;
+
+        bar.style.width = progress + "%";
+    }
+
+});
+
+// ---------------- YES BUTTON ----------------
+
+function answer(){
+
+    document.getElementById("proposalText").style.display="block";
+
+    for(let i=0;i<40;i++){
+
+        setTimeout(function(){
+
+            createHeart(
+                Math.random()>0.5 ? "💖" : "🌹"
+            );
+
+        },i*80);
+
+    }
+
+}
+
+// ---------------- NO BUTTON ----------------
+
+function moveNo(){
+
+    let btn = document.getElementById("noBtn");
+
+    btn.style.position="fixed";
+    btn.style.left =
+    (Math.random()*75+10)+"vw";
+
+    btn.style.top =
+    (Math.random()*70+10)+"vh";
+
+    btn.innerHTML="Catch Me 😜";
+
+}
+
+// ---------------- FLOATING HEARTS ----------------
+
+function createHeart(symbol){
+
+    let heart = document.createElement("div");
+
+    heart.className="item";
+    heart.innerHTML=symbol;
+
+    heart.style.left=
+    Math.random()*100+"vw";
+
+    heart.style.fontSize=
+    (18+Math.random()*20)+"px";
+
+    heart.style.animationDuration=
+    (5+Math.random()*4)+"s";
+
+    document.getElementById("hearts")
+    .appendChild(heart);
+
+    setTimeout(function(){
+        heart.remove();
+    },9000);
+
+}
+
+// Automatic hearts
+
+setInterval(function(){
+
+    createHeart(
+        Math.random()>0.5 ? "💖" : "🌸"
+    );
+
+},700);
+
+</script>
+
+</body>
+</html>
+

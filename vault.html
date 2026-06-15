@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Password Vault ❤️</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:linear-gradient(135deg,#1d1d2f,#432371,#ff5f8a);min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden}
+.container{width:90%;max-width:520px;background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);border-radius:25px;padding:30px;text-align:center;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+#vault{font-size:34px;margin:15px 0}
+#question{margin:20px 0;min-height:60px;font-size:20px}
+input{width:100%;padding:12px;border:none;border-radius:12px;text-align:center}
+button{margin-top:15px;padding:12px 30px;border:none;border-radius:30px;background:#ff4d79;color:#fff;cursor:pointer}
+#status{min-height:40px;margin-top:15px;color:#ffd166;font-weight:bold}
+#final{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;justify-content:center;align-items:center}
+.letter{width:90%;max-width:460px;background:#fff8f0;color:#444;padding:30px;border-radius:20px;text-align:center}
+.heart{position:fixed;font-size:20px;opacity:.4;animation:floatUp linear forwards;pointer-events:none}
+@keyframes floatUp{from{transform:translateY(100vh);opacity:0}20%{opacity:.8}to{transform:translateY(-120px);opacity:0}}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🔒 Love Password Vault ❤️</h1>
+<p>Answer all 7 questions to unlock the secret vault!</p>
+<div id="vault">🤍 🤍 🤍 🤍 🤍 🤍 🤍</div>
+<div id="question"></div>
+<input id="answer" type="text" placeholder="Type your answer...">
+<button onclick="checkAnswer()">Unlock ❤️</button>
+<div id="status"></div>
+</div>
+
+<div id="final">
+<div class="letter">
+<h2>🔓 Vault Opened! 💖</h2>
+<p>Congratulations... you solved every clue and unlocked my secret vault. ❤️<br><br>
+You are my favorite adventure, my happiest memory, and my forever person. 🌹<br><br>
+❤️ I Love You ❤️</p>
+<button onclick="location.reload()">Play Again</button>
+</div>
+</div>
+
+<script>
+const questions=[
+{q:"❤️ Question 1: Which movie always reminds me of you?",a:"rockstar"},
+{q:"🎶 Question 2: What is your favourite song sung by Mohit Chauhan?",a:"tum se hi"},
+{q:"🛵 Question 3: Which vehicle did we create one of our cutest memories with?",a:"scooty"},
+{q:"🚉 Question 4: Where do I always come to drop you before going home?",a:"station"},
+{q:"🌊 Question 5: We always say our love is like which river created by Bhagirathi and Alaknanda?",a:"ganga"},
+{q:"🍚🥖 Question 6: Between rice and chapati, what do we usually love eating together?",a:"rice"},
+{q:"💍 Final Question: Who will always have my heart, today and forever?",a:"rupali"}
+];
+let current=0,unlocked=0;
+const vault=document.getElementById("vault");
+const question=document.getElementById("question");
+const answer=document.getElementById("answer");
+const statusBox=document.getElementById("status");
+function loadQuestion(){question.innerHTML=questions[current].q;answer.value="";answer.focus();}
+function updateVault(){let hearts="";for(let i=0;i<7;i++){hearts+=(i<unlocked)?"❤️ ":"🤍 ";}vault.innerHTML=hearts;}
+function checkAnswer(){
+const user=answer.value.trim().toLowerCase();
+if(user===questions[current].a.toLowerCase()){
+unlocked++;updateVault();
+statusBox.innerHTML="🔓 Access Granted! Heart Module "+unlocked+"/7 Activated. ❤️";
+current++;
+if(current>=questions.length){setTimeout(()=>{document.getElementById("final").style.display="flex";},1000);return;}
+setTimeout(()=>{statusBox.innerHTML="";loadQuestion();},900);
+}else{
+statusBox.innerHTML="❌ Wrong password... Hint: Think about our special memories together. 💕";
+}}
+answer.addEventListener("keypress",e=>{if(e.key==="Enter")checkAnswer();});
+loadQuestion();updateVault();
+setInterval(()=>{
+const h=document.createElement("div");
+h.className="heart";
+h.innerHTML=Math.random()>.5?"❤️":"💕";
+h.style.left=Math.random()*100+"vw";
+h.style.fontSize=(15+Math.random()*20)+"px";
+h.style.animationDuration=(5+Math.random()*4)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),9000);
+},500);
+</script>
+</body>
+</html>

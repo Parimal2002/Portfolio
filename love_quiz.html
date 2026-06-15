@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👑 Kaun Banega Oracle Queen ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:radial-gradient(circle at top,#233a95 0%,#11174d 40%,#050816 100%);
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+/* Floating Hearts */
+.heart{
+    position:fixed;
+    font-size:20px;
+    opacity:.25;
+    animation:floatHeart 10s linear infinite;
+    pointer-events:none;
+}
+
+@keyframes floatHeart{
+    0%{
+        transform:translateY(100vh) rotate(0deg);
+    }
+    100%{
+        transform:translateY(-120vh) rotate(360deg);
+    }
+}
+
+.container{
+    width:100%;
+    max-width:850px;
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(12px);
+    border:2px solid rgba(255,215,0,.25);
+    border-radius:30px;
+    padding:25px;
+    box-shadow:
+    0 0 20px rgba(255,215,0,.15),
+    0 0 60px rgba(0,0,0,.5);
+    position:relative;
+    overflow:hidden;
+}
+
+.container::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.04),
+    transparent
+    );
+    pointer-events:none;
+}
+
+h1{
+    text-align:center;
+    color:#ffd54f;
+    font-size:34px;
+    margin-bottom:5px;
+    text-shadow:0 0 15px rgba(255,215,0,.4);
+}
+
+.sub{
+    text-align:center;
+    color:#ddd;
+    margin-bottom:20px;
+    font-size:14px;
+}
+
+/* Top Info */
+
+.topBar{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:15px;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+#reward{
+    background:linear-gradient(135deg,#ff4d6d,#ff758f);
+    padding:15px;
+    border-radius:18px;
+    font-size:18px;
+    font-weight:600;
+    text-align:center;
+    box-shadow:0 0 15px rgba(255,105,135,.35);
+}
+
+#timer{
+    background:#111b53;
+    border:2px solid #ffd54f;
+    color:#ffd54f;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:bold;
+    box-shadow:0 0 15px rgba(255,215,0,.3);
+}
+
+/* Progress */
+
+#progressWrap{
+    margin-bottom:18px;
+}
+
+#progressText{
+    text-align:center;
+    margin-bottom:8px;
+    color:#ffd54f;
+}
+
+#progressBar{
+    width:100%;
+    height:12px;
+    background:#1b225e;
+    border-radius:50px;
+    overflow:hidden;
+}
+
+#progressFill{
+    width:0%;
+    height:100%;
+    background:linear-gradient(90deg,#ff4d6d,#ffd54f);
+    transition:.4s;
+}
+
+/* Lifelines */
+
+#lifelines{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.life{
+    border:none;
+    cursor:pointer;
+    padding:12px 18px;
+    border-radius:30px;
+    background:linear-gradient(135deg,#ffd54f,#ffb300);
+    color:#111;
+    font-weight:700;
+    transition:.25s;
+}
+
+.life:hover{
+    transform:translateY(-2px);
+}
+
+.life:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+}
+
+/* Question */
+
+#questionBox{
+    background:rgba(255,255,255,.05);
+    border:2px solid rgba(255,255,255,.08);
+    border-radius:22px;
+    padding:25px;
+}
+
+#question{
+    font-size:24px;
+    text-align:center;
+    line-height:1.6;
+    min-height:90px;
+    margin-bottom:25px;
+}
+
+/* Options */
+
+#answers{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.option{
+    border:none;
+    cursor:pointer;
+    padding:16px;
+    border-radius:18px;
+    color:white;
+    font-size:17px;
+    font-weight:500;
+    background:linear-gradient(135deg,#1d2f8a,#283593);
+    border:2px solid rgba(255,255,255,.08);
+    transition:.25s;
+}
+
+.option:hover{
+    transform:scale(1.03);
+    background:linear-gradient(135deg,#304ffe,#3949ab);
+}
+
+.option.correct{
+    background:linear-gradient(135deg,#00c853,#43a047)!important;
+}
+
+.option.wrong{
+    background:linear-gradient(135deg,#e53935,#b71c1c)!important;
+}
+
+/* Popup */
+
+#popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.88);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:99;
+}
+
+.card{
+    width:90%;
+    max-width:450px;
+    background:white;
+    color:#333;
+    padding:35px;
+    border-radius:25px;
+    text-align:center;
+    animation:pop .35s ease;
+}
+
+@keyframes pop{
+    from{
+        opacity:0;
+        transform:scale(.8);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.card h2{
+    color:#ff4d6d;
+    margin-bottom:15px;
+}
+
+.card p{
+    line-height:1.8;
+    color:#555;
+}
+
+.card button{
+    margin-top:22px;
+    border:none;
+    background:#ff4d6d;
+    color:white;
+    padding:12px 24px;
+    border-radius:25px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+/* Mobile */
+
+@media(max-width:700px){
+
+    h1{
+        font-size:28px;
+    }
+
+    .topBar{
+        grid-template-columns:1fr;
+        justify-items:center;
+    }
+
+    #answers{
+        grid-template-columns:1fr;
+    }
+
+    #question{
+        font-size:20px;
+    }
+
+    #timer{
+        width:75px;
+        height:75px;
+        font-size:24px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating Hearts -->
+<div class="heart" style="left:8%;animation-duration:11s;">❤️</div>
+<div class="heart" style="left:25%;animation-duration:9s;">💕</div>
+<div class="heart" style="left:42%;animation-duration:12s;">💖</div>
+<div class="heart" style="left:63%;animation-duration:10s;">🌸</div>
+<div class="heart" style="left:81%;animation-duration:13s;">❤️</div>
+
+<div class="container">
+
+    <h1>👑 Kaun Banega Oracle Queen ❤️</h1>
+    <div class="sub">
+        The Ultimate Oracle DBA Challenge — Powered by Love 💕
+    </div>
+
+    <div class="topBar">
+        <div id="reward">
+            🎁 Reward: 😘 1 Sweet Kiss
+        </div>
+
+        <div id="timer">
+            30
+        </div>
+    </div>
+
+    <div id="progressWrap">
+        <div id="progressText">
+            Question 1 of 15
+        </div>
+
+        <div id="progressBar">
+            <div id="progressFill"></div>
+        </div>
+    </div>
+
+    <div id="lifelines">
+        <button class="life" id="fifty">
+            💡 50 : 50
+        </button>
+
+        <button class="life" id="hint">
+            👨‍💻 Ask Your Boyfriend
+        </button>
+
+        <button class="life" id="skip">
+            ❤️ Heart Shield
+        </button>
+    </div>
+
+    <div id="questionBox">
+        <div id="question"></div>
+        <div id="answers"></div>
+    </div>
+
+</div>
+
+<!-- Result Popup -->
+
+<div id="popup">
+    <div class="card">
+        <h2 id="resultTitle"></h2>
+        <p id="resultText"></p>
+
+        <button onclick="location.reload()">
+            🔄 Play Again
+        </button>
+    </div>
+</div>
+
+
+<script>
+
+const rewards=[
+"😘 1 Sweet Kiss",
+"🤗 2 Warm Hugs",
+"🍫 Chocolate Treat",
+"🌹 Surprise Rose",
+"☕ Coffee Date",
+"🍕 Pizza Date",
+"🎬 Movie Night",
+"🚗 Long Drive",
+"🌃 Rooftop Dinner",
+"🎁 Mystery Gift",
+"💝 Handmade Surprise",
+"🛍️ Shopping Date",
+"🌙 Stargazing Night",
+"💖 Unlimited Cuddles",
+"💍 Lifetime Membership To My Heart ❤️"
+];
+
+const hints=[
+"💡 Think about the SQL command you use most often.",
+"👨‍💻 Imagine you're sitting in front of Oracle SQL Developer.",
+"📚 You definitely learned this during DBA training.",
+"❤️ If I had to guess, I'd choose the Oracle-related answer.",
+"🤓 Remember the basics—Oracle loves consistency!"
+];
+
+const qEl=document.getElementById("question");
+const ans=document.getElementById("answers");
+const reward=document.getElementById("reward");
+const timerEl=document.getElementById("timer");
+const progressText=document.getElementById("progressText");
+const progressFill=document.getElementById("progressFill");
+
+let current=0;
+let timeLeft=30;
+let timer;
+let gameOver=false;
+
+
+const questions=[
+{
+q:"Which Oracle SQL function returns the current system date and time?",
+a:["TODAY()","CURRENT_DATE","SYSDATE","NOW()"],
+c:2
+},
+{
+q:"What does SQL stand for?",
+a:[
+"Structured Query Language",
+"Simple Query Logic",
+"System Query Language",
+"Structured Queue Language"
+],
+c:0
+},
+{
+q:"Which command is used to retrieve records from a table?",
+a:["GET","SELECT","SHOW","OPEN"],
+c:1
+},
+{
+q:"What is the default port number for Oracle Listener?",
+a:["8080","3306","1521","1433"],
+c:2
+},
+{
+q:"Which clause is used to filter rows in SQL?",
+a:["ORDER BY","GROUP BY","WHERE","HAVING"],
+c:2
+},
+{
+q:"Which command adds a new row into a table?",
+a:["INSERT","UPDATE","CREATE","ALTER"],
+c:0
+},
+{
+q:"Which Oracle object improves query performance?",
+a:["Cursor","Index","Package","Trigger"],
+c:1
+},
+{
+q:"Which statement permanently saves changes?",
+a:["SAVE","COMMIT","MERGE","STORE"],
+c:1
+},
+{
+q:"Which SQL command modifies existing data?",
+a:["INSERT","UPDATE","ALTER","MODIFY"],
+c:1
+},
+{
+q:"A PRIMARY KEY can contain how many NULL values?",
+a:["One","Unlimited","Zero","Two"],
+c:2
+},
+{
+q:"Which JOIN returns only matching records from both tables?",
+a:["LEFT JOIN","RIGHT JOIN","INNER JOIN","FULL JOIN"],
+c:2
+},
+{
+q:"Which background process writes redo log buffer to disk?",
+a:["PMON","DBWn","LGWR","SMON"],
+c:2
+},
+{
+q:"Which command removes all rows but keeps the table structure?",
+a:["DROP","DELETE","REMOVE","TRUNCATE"],
+c:3
+},
+{
+q:"DBA stands for?",
+a:[
+"Data Backup Administrator",
+"Database Business Analyst",
+"Database Administrator",
+"Data Base Architect"
+],
+c:2
+},
+{
+q:"Final Question ❤️ Who is the cutest Oracle DBA and the Queen of my heart?",
+a:[
+"Oracle Corporation",
+"Someone Else",
+"You ❤️",
+"Nobody"
+],
+c:2
+}
+];
+
+
+function startTimer(){
+
+    clearInterval(timer);
+
+    timeLeft=30;
+    timerEl.innerHTML=timeLeft;
+
+    timer=setInterval(()=>{
+
+        timeLeft--;
+        timerEl.innerHTML=timeLeft;
+
+        if(timeLeft<=5){
+            timerEl.style.color="#ff5252";
+        }else{
+            timerEl.style.color="#ffd54f";
+        }
+
+        if(timeLeft<=0){
+            clearInterval(timer);
+            loseGame(
+                "⏰ Time's Up!",
+                "Oracle Queen! Even databases need backups... but don't worry, you'll always be my number one choice. ❤️"
+            );
+        }
+
+    },1000);
+
+}
+
+
+function loadQuestion(){
+
+    clearInterval(timer);
+
+    reward.innerHTML="🎁 Reward: "+rewards[current];
+
+    progressText.innerHTML=
+    "Question "+(current+1)+" of "+questions.length;
+
+    progressFill.style.width=
+    ((current)/questions.length)*100+"%";
+
+    qEl.innerHTML=questions[current].q;
+
+    ans.innerHTML="";
+
+    questions[current].a.forEach((option,index)=>{
+
+        const btn=document.createElement("button");
+        btn.className="option";
+        btn.innerHTML=option;
+
+        btn.onclick=()=>checkAnswer(index,btn);
+
+        ans.appendChild(btn);
+
+    });
+
+    startTimer();
+
+}
+
+
+function checkAnswer(selected,button){
+
+    if(gameOver) return;
+
+    gameOver=true;
+
+    clearInterval(timer);
+
+    const correct=questions[current].c;
+
+    const buttons=[
+        ...document.querySelectorAll(".option")
+    ];
+
+    buttons[correct].classList.add("correct");
+
+    if(selected===correct){
+
+        button.classList.add("correct");
+
+        setTimeout(()=>{
+
+            current++;
+            gameOver=false;
+
+            if(current>=questions.length){
+                winGame();
+            }else{
+                loadQuestion();
+            }
+
+        },1200);
+
+    }else{
+
+        button.classList.add("wrong");
+
+        setTimeout(()=>{
+
+            loseGame(
+            "❌ Oops!",
+            "That wasn't the correct answer... but one thing is always correct:<br><br><b>You are my favorite Oracle DBA forever. ❤️</b>"
+            );
+
+        },1200);
+
+    }
+
+}
+
+
+document.getElementById("fifty").onclick=function(){
+
+    this.disabled=true;
+
+    const buttons=[
+        ...document.querySelectorAll(".option")
+    ];
+
+    const correct=questions[current].c;
+
+    let removed=0;
+
+    for(let i=0;i<buttons.length;i++){
+
+        if(i!==correct && removed<2){
+
+            buttons[i].style.visibility="hidden";
+            removed++;
+
+        }
+
+    }
+
+};
+
+
+document.getElementById("hint").onclick=function(){
+
+    this.disabled=true;
+
+    const randomHint=
+    hints[Math.floor(
+    Math.random()*hints.length
+    )];
+
+    alert(
+    "👨‍💻 Ask Your Boyfriend Lifeline\n\n"+
+    randomHint+
+    "\n\n💕 P.S. I know you'll get this!"
+    );
+
+};
+
+
+document.getElementById("skip").onclick=function(){
+
+    this.disabled=true;
+
+    clearInterval(timer);
+
+    alert(
+    "❤️ Heart Shield Activated!\n\n"+
+    "Because you're special, this question is skipped!"
+    );
+
+    current++;
+
+    if(current>=questions.length){
+        winGame();
+    }else{
+        loadQuestion();
+    }
+
+};
+
+
+function createHearts(){
+
+    for(let i=0;i<70;i++){
+
+        const heart=document.createElement("div");
+
+        heart.innerHTML=
+        Math.random()>0.5 ? "❤️" : "💕";
+
+        heart.style.position="fixed";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.top="-50px";
+        heart.style.fontSize=
+        (18+Math.random()*24)+"px";
+
+        heart.style.pointerEvents="none";
+        heart.style.transition=
+        (3+Math.random()*2)+"s linear";
+        heart.style.zIndex="9999";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.style.transform=
+            `translateY(110vh) rotate(${720+Math.random()*360}deg)`;
+        },50);
+
+        setTimeout(()=>{
+            heart.remove();
+        },5500);
+
+    }
+
+}
+
+
+function winGame(){
+
+    clearInterval(timer);
+
+    createHearts();
+
+    progressFill.style.width="100%";
+
+    document.getElementById("resultTitle").innerHTML=
+    "👑 Oracle Queen Crowned! 👑";
+
+    document.getElementById("resultText").innerHTML=
+    "🎉 Congratulations! You completed every challenge like a true Oracle DBA!<br><br>" +
+
+    "🏆 <b>Final Reward Unlocked:</b><br><br>" +
+
+    "😘 Unlimited Kisses<br>" +
+    "🤗 Unlimited Hugs<br>" +
+    "🌹 Unlimited Surprise Roses<br>" +
+    "🍫 Unlimited Chocolate Dates<br>" +
+    "🚗 Unlimited Long Drives<br>" +
+    "🌃 Unlimited Rooftop Dinners<br><br>" +
+
+    "💍 <b>GRAND PRIZE:</b><br>" +
+    "A lifetime membership to my heart ❤️<br><br>" +
+
+    "💕 <i>P.S. You are officially the cutest Oracle DBA and the most beautiful girl in my universe. I made this little game just to see you smile. 😊❤️</i>";
+
+    document.getElementById("popup").style.display="flex";
+
+}
+
+
+function loseGame(title,msg){
+
+    clearInterval(timer);
+
+    document.getElementById("resultTitle").innerHTML=
+    title;
+
+    document.getElementById("resultText").innerHTML=
+    msg +
+    "<br><br>💖 But honestly... whether you win or lose this game, you have already won my heart forever. 🌸";
+
+    document.getElementById("popup").style.display="flex";
+
+}
+
+
+setTimeout(()=>{
+
+    alert(
+    "🎙️ Welcome to...\n\n" +
+    "👑 KAUN BANEGA ORACLE QUEEN ❤️\n\n" +
+    "15 Questions.\n" +
+    "15 Romantic Rewards.\n" +
+    "1 Beautiful Oracle DBA.\n\n" +
+    "And the ultimate prize...\n" +
+    "💍 A Lifetime Membership To My Heart! ❤️"
+    );
+
+},400);
+
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
+
+

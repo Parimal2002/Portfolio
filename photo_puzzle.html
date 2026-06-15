@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>❤️ Our Love Puzzle ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Poppins,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#ffd6e7,#ffb3c6,#ff8fab);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.container{
+    background:white;
+    padding:20px;
+    border-radius:25px;
+    max-width:700px;
+    width:100%;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+
+h1{
+    color:#ff4d79;
+    margin-bottom:10px;
+}
+
+p{
+    color:#666;
+    margin-bottom:15px;
+}
+
+#top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+    color:#ff4d79;
+    font-weight:bold;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+#board{
+    width:450px;
+    height:675px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(3,1fr);
+    gap:2px;
+    background:#ffb6c1;
+    padding:2px;
+    border-radius:12px;
+}
+
+.tile{
+    cursor:pointer;
+    border-radius:5px;
+    transition:.2s;
+    background-image:url("photo.png");
+    background-size:450px 675px;
+}
+
+.tile:hover{
+    transform:scale(.98);
+}
+
+.selected{
+    outline:4px solid gold;
+}
+
+button{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:25px;
+    background:#ff4d79;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+#message{
+    margin-top:15px;
+    color:#d6336c;
+    font-size:20px;
+    font-weight:bold;
+}
+
+@media(max-width:600px){
+    #board{
+        width:300px;
+        height:450px;
+    }
+    .tile{
+        background-size:300px 450px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🧩 Complete Our Love Story ❤️</h1>
+    <p>Tap one piece, then another piece to swap them!</p>
+
+    <div id="top">
+        <div>🎯 Moves: <span id="moves">0</span></div>
+        <div>🏆 Reward: 💋 A Big Kiss</div>
+    </div>
+
+    <div id="board"></div>
+
+    <button onclick="shuffleBoard()">🔀 Shuffle Again</button>
+
+    <div id="message"></div>
+</div>
+
+<script>
+const SIZE=3;
+
+let pieces=[];
+let selected=null;
+let moves=0;
+
+const board=document.getElementById("board");
+const movesEl=document.getElementById("moves");
+const message=document.getElementById("message");
+
+function init(){
+    pieces=[];
+    for(let i=0;i<SIZE*SIZE;i++){
+        pieces.push(i);
+    }
+    shuffleBoard();
+}
+
+function renderBoard(){
+    board.innerHTML="";
+
+    pieces.forEach((piece,index)=>{
+        const tile=document.createElement("div");
+        tile.className="tile";
+
+        if(selected===index){
+            tile.classList.add("selected");
+        }
+
+        const x=piece%SIZE;
+        const y=Math.floor(piece/SIZE);
+
+        tile.style.backgroundPosition=
+            `${-(x*100)/(SIZE-1)}% ${-(y*100)/(SIZE-1)}%`;
+
+        tile.onclick=()=>selectTile(index);
+
+        board.appendChild(tile);
+    });
+}
+
+function selectTile(index){
+
+    if(selected===null){
+        selected=index;
+        renderBoard();
+        return;
+    }
+
+    [pieces[selected],pieces[index]]=
+    [pieces[index],pieces[selected]];
+
+    selected=null;
+    moves++;
+    movesEl.textContent=moves;
+
+    renderBoard();
+    checkWin();
+}
+
+function shuffleBoard(){
+
+    message.innerHTML="";
+    moves=0;
+    movesEl.textContent=0;
+    selected=null;
+
+    pieces=[];
+    for(let i=0;i<SIZE*SIZE;i++){
+        pieces.push(i);
+    }
+
+    for(let i=pieces.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [pieces[i],pieces[j]]=
+        [pieces[j],pieces[i]];
+    }
+
+    if(isSolved()){
+        shuffleBoard();
+        return;
+    }
+
+    renderBoard();
+}
+
+function isSolved(){
+    for(let i=0;i<pieces.length;i++){
+        if(pieces[i]!==i) return false;
+    }
+    return true;
+}
+
+function checkWin(){
+
+    if(isSolved()){
+
+        message.innerHTML=
+        "🎉 Puzzle Completed!<br>" +
+        "Just like these pieces, we are perfect together. ❤️";
+
+        createHearts();
+    }
+}
+
+function createHearts(){
+
+    for(let i=0;i<30;i++){
+
+        const heart=document.createElement("div");
+        heart.innerHTML=Math.random()>0.5?"❤️":"💕";
+
+        heart.style.position="fixed";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.top="-30px";
+        heart.style.fontSize=(20+Math.random()*20)+"px";
+        heart.style.pointerEvents="none";
+        heart.style.transition="3s linear";
+        heart.style.zIndex="999";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.style.transform=
+            "translateY(110vh) rotate(720deg)";
+        },50);
+
+        setTimeout(()=>{
+            heart.remove();
+        },3200);
+    }
+}
+
+init();
+</script>
+
+</body>
+</html>

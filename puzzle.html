@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find the Key to My Heart ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Poppins,sans-serif;
+}
+body{
+    background:linear-gradient(135deg,#ffd6e8,#ffb6c1);
+    min-height:100vh;
+    overflow:hidden;
+}
+h1{
+    text-align:center;
+    color:white;
+    padding:20px;
+    text-shadow:2px 2px 6px rgba(0,0,0,.2);
+}
+#room{
+    width:100%;
+    max-width:900px;
+    margin:20px auto;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    padding:20px;
+}
+.item{
+    background:rgba(255,255,255,.25);
+    backdrop-filter:blur(5px);
+    border-radius:20px;
+    padding:40px;
+    text-align:center;
+    cursor:pointer;
+    transition:.3s;
+    font-size:70px;
+}
+.item:hover{
+    transform:scale(1.05);
+    background:rgba(255,255,255,.4);
+}
+#clue{
+    width:90%;
+    max-width:500px;
+    margin:15px auto;
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    text-align:center;
+    min-height:70px;
+    color:#444;
+    font-size:18px;
+}
+
+#codeArea{
+    text-align:center;
+    margin-top:15px;
+}
+
+input{
+    padding:10px;
+    width:180px;
+    text-align:center;
+    font-size:20px;
+    border-radius:10px;
+    border:none;
+}
+
+button{
+    margin-left:10px;
+    padding:10px 18px;
+    border:none;
+    border-radius:10px;
+    background:#ff4d79;
+    color:white;
+    cursor:pointer;
+}
+
+#winBox{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+#popup{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    width:90%;
+    max-width:400px;
+}
+
+#popup h2{
+    color:#ff4d79;
+    margin-bottom:15px;
+}
+
+#popup p{
+    line-height:1.6;
+    color:#444;
+}
+
+.floating{
+    position:fixed;
+    color:white;
+    opacity:.3;
+    animation:up 8s linear infinite;
+    pointer-events:none;
+}
+
+@keyframes up{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-100px);}
+}
+</style>
+</head>
+<body>
+
+<h1>🔐 Find the Key to My Heart ❤️</h1>
+
+<div id="room">
+    <div class="item" onclick="showClue(1)">🌹</div>
+    <div class="item" onclick="showClue(2)">📖</div>
+    <div class="item" onclick="showClue(3)">🧸</div>
+    <div class="item" onclick="showClue(4)">🎁</div>
+</div>
+
+<div id="clue">
+    Click an object to discover a clue...
+</div>
+
+<div id="codeArea">
+    <input type="text" id="codeInput" maxlength="4" placeholder="Enter 4-digit code">
+    <button onclick="checkCode()">Unlock ❤️</button>
+</div>
+
+<div id="winBox">
+    <div id="popup">
+        <h2>💖 You Found the Key! 💖</h2>
+        <p>
+            You solved every clue and unlocked my heart.<br><br>
+            The truth is... there was never a lock.<br>
+            My heart has always belonged to you. ❤️🌹
+        </p>
+        <br>
+        <button onclick="location.reload()">Play Again</button>
+    </div>
+</div>
+
+<script>
+const clueBox = document.getElementById("clue");
+
+const clues = [
+    "🌹 Rose: The first number is the month we first met. (Example: June = 06)",
+    "📖 Diary: The second clue is the day of our special date.",
+    "🧸 Teddy: Add the last digit of your lucky number.",
+    "🎁 Gift Box: The final digit is the number of letters in the word LOVE."
+];
+
+// Change this code to something meaningful to your relationship!
+const secretCode = "1809"; // Example: 22 (day), 1 (lucky number), 4 (LOVE)
+
+function showClue(num){
+    clueBox.innerHTML = clues[num-1];
+}
+
+function checkCode(){
+    const entered = document.getElementById("codeInput").value;
+
+    if(entered === secretCode){
+        document.getElementById("winBox").style.display = "flex";
+    }else{
+        clueBox.innerHTML = "❌ That's not the right key. Look around the room for more clues!";
+    }
+}
+
+// Floating hearts
+setInterval(()=>{
+    const h = document.createElement("div");
+    h.className = "floating";
+    h.innerHTML = Math.random()>0.5 ? "❤️" : "💕";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.fontSize = (20 + Math.random()*25) + "px";
+    h.style.animationDuration = (6 + Math.random()*4) + "s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),10000);
+},600);
+</script>
+
+</body>
+</html>

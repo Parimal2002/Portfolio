@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Escape Room ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Poppins,sans-serif;
+}
+body{
+    background:linear-gradient(135deg,#ffc2d1,#ff8fab);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+.container{
+    width:95%;
+    max-width:900px;
+    text-align:center;
+}
+h1{
+    color:white;
+    margin-bottom:10px;
+}
+#keys{
+    font-size:32px;
+    margin-bottom:20px;
+}
+.room{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+.item{
+    background:rgba(255,255,255,.92);
+    border-radius:20px;
+    padding:30px 10px;
+    cursor:pointer;
+    transition:.25s;
+}
+.item:hover{
+    transform:translateY(-5px) scale(1.03);
+}
+.icon{
+    font-size:60px;
+}
+.name{
+    margin-top:10px;
+    color:#444;
+    font-size:20px;
+    font-weight:bold;
+}
+#popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+.card{
+    width:90%;
+    max-width:380px;
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+}
+.card h2{
+    color:#ff4d79;
+    margin-bottom:10px;
+}
+.card input{
+    width:100%;
+    padding:10px;
+    margin:15px 0;
+    border:2px solid #ffccd5;
+    border-radius:10px;
+    text-align:center;
+}
+.card button{
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d79;
+    color:white;
+    cursor:pointer;
+}
+#message{
+    margin-top:10px;
+    color:#ff4d79;
+    min-height:25px;
+}
+#final{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.88);
+}
+.letter{
+    width:90%;
+    max-width:420px;
+    background:#fffaf0;
+    padding:30px;
+    border-radius:20px;
+}
+.letter h2{
+    text-align:center;
+    color:#ff4d79;
+    margin-bottom:15px;
+}
+.letter p{
+    color:#444;
+    line-height:1.8;
+}
+.letter button{
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d79;
+    color:white;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚪 Love Escape Room ❤️</h1>
+    <div id="keys">🔑🤍 🔑🤍 🔑🤍 🔑🤍</div>
+
+    <div class="room">
+        <div class="item" onclick="openPuzzle(0)">
+            <div class="icon">🗄️</div>
+            <div class="name">Desk Drawer</div>
+        </div>
+
+        <div class="item" onclick="openPuzzle(1)">
+            <div class="icon">📷</div>
+            <div class="name">Photo Frame</div>
+        </div>
+
+        <div class="item" onclick="openPuzzle(2)">
+            <div class="icon">📦</div>
+            <div class="name">Gift Box</div>
+        </div>
+
+        <div class="item" onclick="openPuzzle(3)">
+            <div class="icon">🧸</div>
+            <div class="name">Teddy Bear</div>
+        </div>
+    </div>
+</div>
+
+<div id="popup">
+    <div class="card">
+        <h2 id="title"></h2>
+        <p id="question"></p>
+        <input id="answer" placeholder="Your answer...">
+        <button onclick="checkAnswer()">Unlock 🔓</button>
+        <div id="message"></div>
+    </div>
+</div>
+
+<div id="final">
+    <div class="letter">
+        <h2>🎉 You Escaped! ❤️</h2>
+        <p>
+            You solved every puzzle and unlocked every lock.<br><br>
+            But there was one thing that was never locked away...<br><br>
+            <b>My heart has always been open for you. 🌹❤️</b><br><br>
+            Thank you for being my favorite person, my biggest smile, and my happiest place.
+        </p>
+        <button onclick="location.reload()">Play Again 💕</button>
+    </div>
+</div>
+
+<script>
+const puzzles=[
+{
+    title:"🗄️ Office Desk",
+    question:"Where did our beautiful story first begin?",
+    answer:"tcs"
+},
+{
+    title:"🏡 Hometown",
+    question:"Which city will always remind me of your childhood memories?",
+    answer:"jaysinghpur"
+},
+
+{
+    title:"☀️ Morning Routine",
+    question:"What is our favourite morning train time?",
+    answer:"9:30"
+},
+{
+    title:"🚆 Evening Journey",
+    question:"What is our favourite evening train time?",
+    answer:"7:32"
+},
+];
+
+let solved=[false,false,false,false];
+let current=-1;
+let keys=0;
+
+function openPuzzle(index){
+    current=index;
+    document.getElementById("title").innerText=puzzles[index].title;
+    document.getElementById("question").innerText=puzzles[index].question;
+    document.getElementById("answer").value="";
+    document.getElementById("message").innerText="";
+    document.getElementById("popup").style.display="flex";
+}
+
+function checkAnswer(){
+    let input=document.getElementById("answer").value.trim().toLowerCase();
+
+    if(input===puzzles[current].answer.toLowerCase()){
+        if(!solved[current]){
+            solved[current]=true;
+            keys++;
+            updateKeys();
+        }
+
+        document.getElementById("message").innerText="✅ Correct! You found a golden key! 🔑";
+
+        setTimeout(()=>{
+            document.getElementById("popup").style.display="none";
+            if(keys===4){
+                document.getElementById("final").style.display="flex";
+            }
+        },900);
+
+    }else{
+        document.getElementById("message").innerText="❌ Not quite! Think about us. 💕";
+    }
+}
+
+function updateKeys(){
+    let text="";
+    for(let i=0;i<4;i++){
+        text += i<keys ? "🔑💛 " : "🔑🤍 ";
+    }
+    document.getElementById("keys").innerHTML=text;
+}
+</script>
+
+</body>
+</html>

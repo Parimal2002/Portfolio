@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Rocket Adventure ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(to bottom,#1a1a40,#4b0082,#ff6b9a);
+    overflow:hidden;
+}
+
+#game{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+}
+
+#score{
+    position:absolute;
+    top:20px;
+    left:20px;
+    color:white;
+    font-size:24px;
+    z-index:10;
+}
+
+#rocket{
+    position:absolute;
+    left:80px;
+    top:50%;
+    width:70px;
+    height:70px;
+    font-size:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:5;
+    transition:transform .1s;
+}
+
+.item{
+    position:absolute;
+    font-size:40px;
+}
+
+#message{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:20;
+}
+
+.popup{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    width:90%;
+    max-width:380px;
+}
+
+.popup h2{
+    color:#ff4d79;
+    margin-bottom:15px;
+}
+
+button{
+    margin-top:20px;
+    padding:10px 20px;
+    border:none;
+    border-radius:25px;
+    background:#ff4d79;
+    color:white;
+    cursor:pointer;
+}
+
+.star{
+    position:absolute;
+    color:white;
+    opacity:.5;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{opacity:.2;}
+    to{opacity:1;}
+}
+</style>
+</head>
+<body>
+
+<div id="game">
+    <div id="score">❤️ Hearts: 0 / 18</div>
+    <div id="rocket">🚀</div>
+
+    <div id="message">
+        <div class="popup">
+            <h2>🌙 Mission Complete! ❤️</h2>
+            <p>
+                We crossed every cloud and reached the moon together.<br><br>
+                No matter how far life takes us, I always want you by my side. 💖
+            </p>
+            <button onclick="location.reload()">Play Again</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const rocket = document.getElementById("rocket");
+const scoreText = document.getElementById("score");
+const game = document.getElementById("game");
+
+let rocketY = window.innerHeight/2;
+let velocity = 0;
+let score = 0;
+let gameOver = false;
+let objects = [];
+
+function jump(){
+    if(gameOver) return;
+    velocity = -10;
+}
+
+document.addEventListener("keydown",(e)=>{
+    if(e.code==="Space") jump();
+});
+
+document.addEventListener("click",jump);
+document.addEventListener("touchstart",jump);
+
+function createObject(){
+    if(gameOver) return;
+
+    const obj = document.createElement("div");
+    obj.classList.add("item");
+
+    const good = Math.random() > 0.3;
+
+    obj.innerHTML = good ? "❤️" : "☁️";
+    obj.dataset.type = good ? "heart" : "cloud";
+
+    obj.style.left = window.innerWidth + "px";
+    obj.style.top = Math.random()*(window.innerHeight-80)+"px";
+
+    game.appendChild(obj);
+    objects.push(obj);
+}
+
+setInterval(createObject,1000);
+
+function update(){
+    if(gameOver) return;
+
+    velocity += 0.5;
+    rocketY += velocity;
+
+    if(rocketY < 0) rocketY = 0;
+    if(rocketY > window.innerHeight-70)
+        rocketY = window.innerHeight-70;
+
+    rocket.style.top = rocketY + "px";
+
+    const rocketRect = rocket.getBoundingClientRect();
+
+    objects.forEach((obj,index)=>{
+        let x = parseFloat(obj.style.left);
+        x -= 5;
+        obj.style.left = x + "px";
+
+        const objRect = obj.getBoundingClientRect();
+
+        if(
+            rocketRect.left < objRect.right &&
+            rocketRect.right > objRect.left &&
+            rocketRect.top < objRect.bottom &&
+            rocketRect.bottom > objRect.top
+        ){
+            if(obj.dataset.type === "heart"){
+                score++;
+                scoreText.innerHTML = "❤️ Hearts: " + score + " / 18";
+
+                if(score >= 18){
+                    gameOver = true;
+                    document.getElementById("message").style.display="flex";
+                }
+            }else{
+                score = Math.max(0,score-2);
+                scoreText.innerHTML = "❤️ Hearts: " + score + " / 18";
+            }
+
+            obj.remove();
+            objects.splice(index,1);
+        }
+
+        if(x < -60){
+            obj.remove();
+            objects.splice(index,1);
+        }
+    });
+
+    requestAnimationFrame(update);
+}
+
+update();
+
+// Background stars
+for(let i=0;i<40;i++){
+    const s=document.createElement("div");
+    s.className="star";
+    s.innerHTML="✦";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
+    s.style.fontSize=(8+Math.random()*10)+"px";
+    s.style.animationDuration=(1+Math.random()*3)+"s";
+    document.body.appendChild(s);
+}
+</script>
+
+</body>
+</html>

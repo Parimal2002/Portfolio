@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Fortune Wheel ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+body{
+    background:linear-gradient(135deg,#ffccd5,#ff8fab);
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+h1{
+    color:white;
+    margin-bottom:20px;
+    text-shadow:2px 2px 8px rgba(0,0,0,.2);
+}
+
+#wheelContainer{
+    position:relative;
+    width:320px;
+    height:320px;
+}
+
+#pointer{
+    position:absolute;
+    top:-15px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:40px;
+    z-index:10;
+}
+
+#wheel{
+    width:320px;
+    height:320px;
+    border-radius:50%;
+    border:8px solid white;
+    transition:transform 5s cubic-bezier(0.2,0.8,0.2,1);
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+
+    background:conic-gradient(
+        #ff4d6d 0deg 45deg,
+        #ff758f 45deg 90deg,
+        #ff8fa3 90deg 135deg,
+        #ffb3c1 135deg 180deg,
+        #ff4d6d 180deg 225deg,
+        #ff758f 225deg 270deg,
+        #ff8fa3 270deg 315deg,
+        #ffb3c1 315deg 360deg
+    );
+    position:relative;
+}
+
+.label{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform-origin:0 0;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    width:110px;
+    text-align:right;
+    pointer-events:none;
+}
+
+button{
+    margin-top:30px;
+    padding:12px 30px;
+    border:none;
+    border-radius:30px;
+    background:white;
+    color:#ff4d6d;
+    font-size:18px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+#popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+#popupContent{
+    background:white;
+    padding:30px;
+    width:90%;
+    max-width:360px;
+    border-radius:20px;
+    text-align:center;
+    animation:pop .4s;
+}
+
+@keyframes pop{
+    from{transform:scale(.5);}
+    to{transform:scale(1);}
+}
+
+#popupContent h2{
+    color:#ff4d6d;
+    margin-bottom:15px;
+}
+
+#popupContent p{
+    color:#555;
+    line-height:1.6;
+}
+
+.heart{
+    position:fixed;
+    font-size:22px;
+    animation:float 8s linear forwards;
+    opacity:.5;
+    pointer-events:none;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+    20%{opacity:.7;}
+    to{
+        transform:translateY(-120px);
+        opacity:0;
+    }
+}
+</style>
+</head>
+<body>
+
+<h1>🎡 Spin the Love Wheel ❤️</h1>
+
+<div id="wheelContainer">
+    <div id="pointer">🔻</div>
+    <div id="wheel"></div>
+</div>
+
+<button id="spinBtn">💖 Spin Now 💖</button>
+
+<div id="popup">
+    <div id="popupContent">
+        <h2 id="rewardTitle"></h2>
+        <p id="rewardText"></p>
+        <br>
+        <button onclick="closePopup()">Close ❤️</button>
+    </div>
+</div>
+
+<script>
+const wheel = document.getElementById("wheel");
+const spinBtn = document.getElementById("spinBtn");
+
+const rewards = [
+    {emoji:"🌹", title:"A Virtual Rose", text:"This rose will never fade, just like my love for you."},
+    {emoji:"🤗", title:"Free Hug", text:"Redeem one unlimited warm hug from me anytime."},
+    {emoji:"🍫", title:"Chocolate Date", text:"Congratulations! You won a sweet chocolate treat with me."},
+    {emoji:"🎬", title:"Movie Night", text:"Tonight, you pick the movie and I'll bring the snacks!"},
+    {emoji:"🍕", title:"Dinner Date", text:"A romantic dinner date is waiting for us."},
+    {emoji:"🚗", title:"Long Drive", text:"Pack your smile, we're going on a long drive together."},
+    {emoji:"💋", title:"Surprise Kiss", text:"You unlocked a surprise kiss coupon. Use wisely! 😘"},
+    {emoji:"👑", title:"Queen of My Heart", text:"You don't need luck—you already own my heart forever. ❤️"}
+];
+
+const wheelLabels = rewards.map(r => r.emoji);
+
+wheelLabels.forEach((txt,i)=>{
+    const label=document.createElement("div");
+    label.className="label";
+    label.innerHTML=txt;
+    label.style.transform=`rotate(${i*45-68}deg) translate(105px)`;
+    wheel.appendChild(label);
+});
+
+let currentRotation = 0;
+let spinning = false;
+
+spinBtn.onclick = () => {
+    if(spinning) return;
+
+    spinning = true;
+
+    const winner = Math.floor(Math.random()*8);
+    const sector = 45;
+    const target = (360 - (winner * sector) - sector/2);
+
+    currentRotation += 360*6 + target;
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+    setTimeout(()=>{
+        document.getElementById("rewardTitle").innerHTML =
+            rewards[winner].emoji + " " + rewards[winner].title;
+        document.getElementById("rewardText").innerHTML =
+            rewards[winner].text;
+
+        document.getElementById("popup").style.display="flex";
+        spinning = false;
+    },5000);
+};
+
+function closePopup(){
+    document.getElementById("popup").style.display="none";
+}
+
+// Floating hearts
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML=Math.random()>0.5?"❤️":"💕";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=(5+Math.random()*4)+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),9000);
+},500);
+</script>
+
+</body>
+</html>

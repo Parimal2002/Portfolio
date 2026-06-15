@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💣 Love Bomb Defusal ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Poppins,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#1d1d2e,#3b1f4d,#ff5d8f);
+    color:white;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.container{
+    width:95%;
+    max-width:700px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(10px);
+    border-radius:25px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 15px 35px rgba(0,0,0,.3);
+}
+
+h1{
+    margin-bottom:10px;
+}
+
+#timer{
+    font-size:28px;
+    margin:15px 0;
+    color:#ffd166;
+}
+
+#lives{
+    font-size:26px;
+    margin-bottom:15px;
+}
+
+#clues{
+    background:rgba(255,255,255,.1);
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:20px;
+    line-height:1.7;
+}
+
+#wires{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.wire{
+    padding:15px;
+    border-radius:30px;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+    transition:.25s;
+    user-select:none;
+    font-weight:bold;
+}
+
+.wire:hover{
+    transform:scale(1.03);
+}
+
+.cut{
+    opacity:.35;
+    text-decoration:line-through;
+    pointer-events:none;
+}
+
+.red{background:#d62828;}
+.blue{background:#2979ff;}
+.green{background:#2a9d8f;}
+.yellow{background:#e9c46a;color:#333;}
+.pink{background:#ff4d9d;}
+
+#status{
+    margin-top:20px;
+    min-height:30px;
+    font-size:20px;
+}
+
+#overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.88);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
+
+.popup{
+    width:90%;
+    max-width:420px;
+    background:white;
+    color:#444;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    animation:pop .5s ease;
+}
+
+.popup h2{
+    color:#ff4d79;
+    margin-bottom:15px;
+}
+
+.popup p{
+    line-height:1.7;
+}
+
+.popup button{
+    margin-top:20px;
+    padding:12px 22px;
+    border:none;
+    border-radius:25px;
+    background:#ff4d79;
+    color:white;
+    cursor:pointer;
+}
+
+@keyframes pop{
+    from{
+        transform:scale(.7);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.heart{
+    position:fixed;
+    pointer-events:none;
+    animation:float 5s linear forwards;
+    opacity:.7;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh) rotate(0deg);
+    }
+    to{
+        transform:translateY(-150px) rotate(360deg);
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>💣 Defuse My Heart Bomb ❤️</h1>
+    <p>Cut the wires in the correct order before time runs out!</p>
+
+    <div id="timer">⏳ Time Left: 60s</div>
+    <div id="lives">❤️❤️❤️</div>
+
+    <div id="clues">
+        <b>🕵️ Clues:</b><br>
+        • The first wire is the color of love.<br>
+        • The green wire must be cut before the blue wire.<br>
+        • The last wire is the color of sunshine.<br>
+        • The red wire comes after the green wire.
+    </div>
+
+    <div id="wires">
+        <div class="wire red" onclick="cutWire('red',this)">🔴 Red Wire</div>
+        <div class="wire blue" onclick="cutWire('blue',this)">🔵 Blue Wire</div>
+        <div class="wire green" onclick="cutWire('green',this)">🟢 Green Wire</div>
+        <div class="wire yellow" onclick="cutWire('yellow',this)">🟡 Yellow Wire</div>
+        <div class="wire pink" onclick="cutWire('pink',this)">💖 Pink Wire</div>
+    </div>
+
+    <div id="status"></div>
+</div>
+
+<div id="overlay">
+    <div class="popup">
+        <h2 id="resultTitle"></h2>
+        <p id="resultText"></p>
+        <button onclick="location.reload()">Play Again ❤️</button>
+    </div>
+</div>
+
+<script>
+const correctOrder = ["pink","green","red","blue","yellow"];
+let currentStep = 0;
+let lives = 3;
+let timeLeft = 60;
+let gameOver = false;
+
+const timerEl = document.getElementById("timer");
+const livesEl = document.getElementById("lives");
+const statusEl = document.getElementById("status");
+
+function cutWire(color,element){
+    if(gameOver) return;
+
+    if(color === correctOrder[currentStep]){
+        element.classList.add("cut");
+        currentStep++;
+        statusEl.innerHTML = "✅ Good choice!";
+
+        if(currentStep === correctOrder.length){
+            winGame();
+        }
+    }else{
+        lives--;
+        livesEl.innerHTML = "❤️".repeat(lives);
+
+        shakeScreen();
+
+        if(lives > 0){
+            statusEl.innerHTML = "❌ Wrong wire! Be careful!";
+        }else{
+            loseGame();
+        }
+    }
+}
+
+function shakeScreen(){
+    document.body.style.transform = "translateX(8px)";
+    setTimeout(()=>document.body.style.transform="translateX(-8px)",60);
+    setTimeout(()=>document.body.style.transform="translateX(0)",120);
+}
+
+const countdown = setInterval(()=>{
+    if(gameOver) return;
+
+    timeLeft--;
+    timerEl.innerHTML = "⏳ Time Left: " + timeLeft + "s";
+
+    if(timeLeft <= 0){
+        loseGame();
+    }
+},1000);
+
+function winGame(){
+    gameOver = true;
+    clearInterval(countdown);
+
+    document.getElementById("resultTitle").innerHTML =
+    "💖 Bomb Defused! 💖";
+
+    document.getElementById("resultText").innerHTML =
+    "You saved my heart just in time!<br><br>" +
+    "But there is one secret you should know...<br>" +
+    "<b>My heart was always yours. ❤️🌹</b>";
+
+    document.getElementById("overlay").style.display="flex";
+}
+
+function loseGame(){
+    if(gameOver) return;
+
+    gameOver = true;
+    clearInterval(countdown);
+
+    for(let i=0;i<80;i++){
+        setTimeout(createHeart,i*30);
+    }
+
+    document.getElementById("resultTitle").innerHTML =
+    "💥 Heart Explosion! 💕";
+
+    document.getElementById("resultText").innerHTML =
+    "Oops! The bomb exploded...<br><br>" +
+    "Not because you failed, but because my heart is overflowing with love for you! ❤️😂";
+
+    document.getElementById("overlay").style.display="flex";
+}
+
+function createHeart(){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML=Math.random()>.5?"❤️":"💕";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(18+Math.random()*30)+"px";
+    h.style.animationDuration=(3+Math.random()*3)+"s";
+    document.body.appendChild(h);
+
+    setTimeout(()=>h.remove(),6000);
+}
+</script>
+
+</body>
+</html>

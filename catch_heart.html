@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find My Heart ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    overflow:hidden;
+    background:linear-gradient(135deg,#ffd6e7,#ff9eb5);
+}
+
+#gameArea{
+    width:100vw;
+    height:100vh;
+    position:relative;
+}
+
+h1{
+    position:absolute;
+    top:15px;
+    width:100%;
+    text-align:center;
+    color:white;
+    text-shadow:2px 2px 6px rgba(0,0,0,.2);
+    z-index:2;
+}
+
+#score{
+    position:absolute;
+    left:20px;
+    top:20px;
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    z-index:2;
+}
+
+#timer{
+    position:absolute;
+    right:20px;
+    top:20px;
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    z-index:2;
+}
+
+#heart{
+    position:absolute;
+    font-size:60px;
+    cursor:pointer;
+    user-select:none;
+    transition:transform .2s;
+    animation:pulse 1s infinite;
+}
+
+#heart:hover{
+    transform:scale(1.2);
+}
+
+@keyframes pulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.15);}
+}
+
+#message{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    width:90%;
+    max-width:350px;
+    display:none;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    z-index:5;
+}
+
+#message h2{
+    color:#ff4f7b;
+    margin-bottom:10px;
+}
+
+button{
+    margin-top:20px;
+    padding:10px 25px;
+    border:none;
+    border-radius:25px;
+    background:#ff4f7b;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.floating{
+    position:absolute;
+    color:white;
+    font-size:20px;
+    opacity:.3;
+    animation:float 10s linear infinite;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh);
+    }
+    to{
+        transform:translateY(-100px);
+    }
+}
+</style>
+</head>
+<body>
+
+<div id="gameArea">
+    <h1>❤️ Find My Heart ❤️</h1>
+
+    <div id="score">Hearts: 0</div>
+    <div id="timer">Time: 30</div>
+
+    <div id="heart">❤️</div>
+
+    <div id="message">
+        <h2>You Found My Heart! 💖</h2>
+        <p id="finalText"></p>
+        <button onclick="restartGame()">Play Again</button>
+    </div>
+</div>
+
+<script>
+const heart = document.getElementById("heart");
+const scoreText = document.getElementById("score");
+const timerText = document.getElementById("timer");
+const message = document.getElementById("message");
+const finalText = document.getElementById("finalText");
+
+let score = 0;
+let timeLeft = 30;
+let playing = true;
+
+const cuteMessages = [
+    "🌹 You found another piece of my heart!",
+    "💕 You're my favorite person!",
+    "🥰 Every click makes me love you more!",
+    "💖 You always know where my heart is!",
+    "✨ You and me = Forever!"
+];
+
+function moveHeart(){
+    if(!playing) return;
+
+    const x = Math.random() * (window.innerWidth - 80);
+    const y = 80 + Math.random() * (window.innerHeight - 180);
+
+    heart.style.left = x + "px";
+    heart.style.top = y + "px";
+}
+
+heart.addEventListener("click",()=>{
+    if(!playing) return;
+
+    score++;
+    scoreText.innerHTML = "Hearts: " + score;
+
+    if(score % 5 === 0){
+        alert(cuteMessages[(score/5-1)%cuteMessages.length]);
+    }
+
+    moveHeart();
+});
+
+moveHeart();
+
+const timer = setInterval(()=>{
+    if(!playing) return;
+
+    timeLeft--;
+    timerText.innerHTML = "Time: " + timeLeft;
+
+    if(timeLeft <= 0){
+        playing = false;
+        clearInterval(timer);
+        heart.style.display = "none";
+
+        finalText.innerHTML =
+        `You collected <b>${score}</b> hearts!<br><br>
+        But the truth is...<br>
+        You stole my heart long ago, and I never want it back. ❤️`;
+
+        message.style.display = "block";
+    }
+},1000);
+
+function restartGame(){
+    score = 0;
+    timeLeft = 30;
+    playing = true;
+
+    scoreText.innerHTML = "Hearts: 0";
+    timerText.innerHTML = "Time: 30";
+
+    message.style.display = "none";
+    heart.style.display = "block";
+    moveHeart();
+
+    location.reload();
+}
+
+// Background floating hearts
+setInterval(()=>{
+    const f = document.createElement("div");
+    f.className = "floating";
+    f.innerHTML = Math.random() > 0.5 ? "💖" : "💕";
+    f.style.left = Math.random()*100 + "vw";
+    f.style.animationDuration = (8 + Math.random()*4) + "s";
+    document.body.appendChild(f);
+
+    setTimeout(()=>f.remove(),12000);
+},700);
+
+</script>
+
+</body>
+</html>

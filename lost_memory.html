@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Lost Memories ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Poppins,sans-serif;
+}
+body{
+    background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+    overflow:hidden;
+}
+h1{
+    text-align:center;
+    color:white;
+    margin:15px 0 5px;
+}
+#inventory{
+    width:90%;
+    max-width:700px;
+    margin:0 auto 10px;
+    background:rgba(255,255,255,.2);
+    padding:10px;
+    border-radius:12px;
+    color:white;
+    text-align:center;
+}
+#room{
+    width:90%;
+    max-width:700px;
+    height:500px;
+    margin:auto;
+    position:relative;
+    background:#fff7f9;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
+.object{
+    position:absolute;
+    cursor:pointer;
+    transition:.2s;
+    user-select:none;
+}
+.object:hover{
+    transform:scale(1.1);
+}
+
+#drawer{left:40px;bottom:40px;font-size:70px;}
+#photo{right:50px;top:70px;font-size:65px;}
+#plant{left:280px;bottom:30px;font-size:70px;}
+#chest{right:80px;bottom:35px;font-size:75px;}
+#door{left:300px;top:120px;font-size:90px;}
+
+#dialog{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+.card{
+    background:white;
+    width:90%;
+    max-width:380px;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+}
+
+.card h2{
+    color:#ff4d79;
+    margin-bottom:10px;
+}
+
+.card input{
+    width:100%;
+    padding:10px;
+    margin:15px 0;
+    border:2px solid #ffccd5;
+    border-radius:10px;
+    text-align:center;
+}
+
+.card button{
+    padding:10px 18px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d79;
+    color:white;
+    cursor:pointer;
+}
+
+#msg{
+    color:#ff4d79;
+    margin-top:10px;
+    min-height:20px;
+}
+
+#win{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.85);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+.letter{
+    background:#fffaf0;
+    width:90%;
+    max-width:420px;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+}
+
+.letter h2{
+    color:#ff4d79;
+    margin-bottom:15px;
+}
+
+.letter p{
+    color:#444;
+    line-height:1.8;
+}
+
+.heart{
+    position:fixed;
+    animation:float 7s linear forwards;
+    opacity:.4;
+    pointer-events:none;
+}
+
+@keyframes float{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-120px);}
+}
+</style>
+</head>
+<body>
+
+<h1>🏰 The Lost Memories ❤️</h1>
+<div id="inventory">
+🎒 Inventory:
+<span id="items">Empty</span>
+</div>
+
+<div id="room">
+
+<div id="drawer" class="object" onclick="openDrawer()">🗄️</div>
+<div id="photo" class="object" onclick="checkPhoto()">🖼️</div>
+<div id="plant" class="object" onclick="checkPlant()">🪴</div>
+<div id="chest" class="object" onclick="openChest()">📦</div>
+<div id="door" class="object" onclick="openDoor()">🚪❤️</div>
+
+</div>
+
+<div id="dialog">
+    <div class="card">
+        <h2 id="title"></h2>
+        <p id="text"></p>
+        <input id="answer" placeholder="Enter answer...">
+        <button onclick="submitAnswer()">Confirm</button>
+        <div id="msg"></div>
+    </div>
+</div>
+
+<div id="win">
+    <div class="letter">
+        <h2>💖 You Found Every Memory 💖</h2>
+        <p>
+            You searched every corner, solved every puzzle,
+            and unlocked the final door.<br><br>
+            But the truth is... you were never looking for
+            lost memories.<br><br>
+            You were creating new ones with me. 🌹❤️<br><br>
+            <b>Thank you for being my favorite adventure.</b>
+        </p>
+        <button onclick="location.reload()">
+            Play Again 💕
+        </button>
+    </div>
+</div>
+
+<script>
+let inventory=[];
+let currentPuzzle="";
+let drawerSolved=false;
+let chestOpened=false;
+let finalKey=false;
+
+function updateInventory(){
+    document.getElementById("items").innerText=
+    inventory.length?inventory.join(" • "):"Empty";
+}
+
+function popup(title,text,puzzle){
+    currentPuzzle=puzzle;
+    document.getElementById("title").innerText=title;
+    document.getElementById("text").innerText=text;
+    document.getElementById("answer").value="";
+    document.getElementById("msg").innerText="";
+    document.getElementById("answer").style.display=
+    puzzle?"block":"none";
+    document.querySelector(".card button").style.display=
+    puzzle?"inline-block":"none";
+    document.getElementById("dialog").style.display="flex";
+}
+
+document.getElementById("dialog").onclick=(e)=>{
+    if(e.target.id==="dialog")
+        document.getElementById("dialog").style.display="none";
+};
+
+function openDrawer(){
+    if(drawerSolved){
+        popup("🗄️ Drawer",
+        "You already found the old note inside.",null);
+        return;
+    }
+
+    popup(
+    "🗄️ Locked Drawer",
+    "A note says:\n'I am the number of letters in LOVE.'",
+    "drawer"
+    );
+}
+
+function checkPhoto(){
+    if(!inventory.includes("📜 Old Note")){
+        popup("🖼️ Photo Frame",
+        "Behind the picture you find a small folded note. 📜",null);
+
+        inventory.push("📜 Old Note");
+        updateInventory();
+    }else{
+        popup("🖼️ Photo Frame",
+        "The picture says: 'Some treasures bloom like flowers.' 🌸",null);
+    }
+}
+
+function checkPlant(){
+    if(!inventory.includes("🌹 Rose")){
+        inventory.push("🌹 Rose");
+        updateInventory();
+        popup("🪴 Flower Pot",
+        "You found a beautiful rose hidden behind the leaves!",null);
+    }else{
+        popup("🪴 Flower Pot",
+        "Nothing else is hidden here.",null);
+    }
+}
+
+function openChest(){
+    if(chestOpened){
+        popup("📦 Treasure Box",
+        "The treasure box is already open.",null);
+        return;
+    }
+
+    if(!inventory.includes("📜 Old Note") ||
+       !inventory.includes("🌹 Rose")){
+        popup("📦 Treasure Box",
+        "It won't open. Maybe you need more clues first.",null);
+        return;
+    }
+
+    popup(
+    "📦 Treasure Box",
+    "Enter the secret word.\nHint: The flower you found opens the box.",
+    "chest"
+    );
+}
+
+function openDoor(){
+    if(!finalKey){
+        popup("🚪 Heart Door",
+        "The door is locked. It looks like it needs a golden key. 🔑",null);
+        return;
+    }
+
+    document.getElementById("win").style.display="flex";
+}
+
+function submitAnswer(){
+    const value=document.getElementById("answer")
+    .value.trim().toLowerCase();
+
+    if(currentPuzzle==="drawer"){
+        if(value==="4"){
+            drawerSolved=true;
+            inventory.push("🔢 Code 4");
+            updateInventory();
+            document.getElementById("msg").innerText=
+            "✅ Correct! You found a code clue.";
+        }else{
+            document.getElementById("msg").innerText=
+            "❌ Try again!";
+            return;
+        }
+    }
+
+    if(currentPuzzle==="chest"){
+        if(value==="rose"){
+            chestOpened=true;
+            finalKey=true;
+            inventory.push("🔑 Golden Key");
+            updateInventory();
+            document.getElementById("msg").innerText=
+            "🎉 The chest opened! You found the Golden Key!";
+        }else{
+            document.getElementById("msg").innerText=
+            "❌ Wrong password!";
+            return;
+        }
+    }
+
+    setTimeout(()=>{
+        document.getElementById("dialog").style.display="none";
+    },1000);
+}
+
+updateInventory();
+
+// floating hearts
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML=Math.random()>.5?"❤️":"💕";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(18+Math.random()*20)+"px";
+    h.style.animationDuration=(5+Math.random()*3)+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),8000);
+},700);
+
+</script>
+
+</body>
+</html>

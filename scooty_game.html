@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Scooty Adventure 🛵❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(180deg,#ffdbe9,#fff7fb,#ffe1ef);
+    overflow:hidden;
+    text-align:center;
+}
+
+h1{
+    font-family:"Great Vibes",cursive;
+    color:#e91e63;
+    margin-top:20px;
+    font-size:3.2rem;
+}
+
+p{
+    color:#8b4c68;
+    margin:8px 0;
+}
+
+#scoreBox{
+    margin:15px 0;
+    font-size:22px;
+    color:#d81b60;
+    font-weight:bold;
+}
+
+#gameArea{
+    width:500px;
+    max-width:95%;
+    height:450px;
+    margin:0 auto;
+    background:#d8d8d8;
+    border:4px solid #ff9fc3;
+    border-radius:25px;
+    overflow:hidden;
+    position:relative;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+/* Road */
+#road{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(#8c8c8c,#b5b5b5);
+}
+
+.line{
+    position:absolute;
+    width:8px;
+    height:60px;
+    background:white;
+    left:50%;
+    transform:translateX(-50%);
+    opacity:.9;
+}
+
+#player{
+    position:absolute;
+    left:220px;
+    bottom:15px;
+    font-size:55px;
+    transition:0.08s linear;
+    z-index:5;
+    user-select:none;
+}
+
+.heart{
+    position:absolute;
+    top:-50px;
+    font-size:34px;
+    user-select:none;
+}
+
+#message{
+    display:none;
+    margin-top:20px;
+    color:#d81b60;
+    font-size:22px;
+    font-weight:bold;
+    animation:pop .8s ease;
+}
+
+@keyframes pop{
+    from{
+        transform:scale(.5);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 28px;
+    background:#ff5f97;
+    color:#fff;
+    text-decoration:none;
+    border-radius:30px;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+    background:#ff3f83;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🛵 Our Scooty Adventure ❤️</h1>
+
+<p>
+Remember the day I taught you how to ride a scooty?<br>
+Catch all the hearts and relive one of my favorite memories. 💖
+</p>
+
+<div id="scoreBox">
+Hearts Collected: <span id="score">0</span> / 15
+</div>
+
+<div id="gameArea">
+
+    <div id="road"></div>
+
+    <!-- Road divider -->
+    <div class="line" style="top:0px;"></div>
+    <div class="line" style="top:80px;"></div>
+    <div class="line" style="top:160px;"></div>
+    <div class="line" style="top:240px;"></div>
+    <div class="line" style="top:320px;"></div>
+    <div class="line" style="top:400px;"></div>
+
+    <!-- Player -->
+    <div id="player">🛵</div>
+
+</div>
+
+<div id="message">
+🎉 You did it! We completed the ride together! ❤️<br>
+Maybe it was just a scooty lesson for everyone else...<br>
+But for me, it became one of the sweetest memories of my life. 🌸
+</div>
+
+<a href="index.html" class="btn">⬅ Back To Our Story</a>
+
+<script>
+
+const player = document.getElementById("player");
+const gameArea = document.getElementById("gameArea");
+const scoreElement = document.getElementById("score");
+const message = document.getElementById("message");
+
+const gameWidth = 500;
+const gameHeight = 450;
+
+let playerX = 220;
+let score = 0;
+let gameRunning = true;
+
+/* Player movement */
+
+document.addEventListener("keydown", function(e){
+
+    if(!gameRunning) return;
+
+    if(e.key === "ArrowLeft"){
+        playerX -= 30;
+    }
+
+    if(e.key === "ArrowRight"){
+        playerX += 30;
+    }
+
+    if(playerX < 10){
+        playerX = 10;
+    }
+
+    if(playerX > gameWidth - 70){
+        playerX = gameWidth - 70;
+    }
+
+    player.style.left = playerX + "px";
+});
+
+/* Create Falling Heart */
+
+function createHeart(){
+
+    if(!gameRunning) return;
+
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+
+    const x = Math.random() * (gameWidth - 60);
+
+    heart.style.left = x + "px";
+    heart.style.top = "-50px";
+
+    gameArea.appendChild(heart);
+
+    let y = -50;
+
+    const fall = setInterval(function(){
+
+        if(!gameRunning){
+            clearInterval(fall);
+            heart.remove();
+            return;
+        }
+
+        y += 4;
+        heart.style.top = y + "px";
+
+        /* Collision */
+
+        if(
+            y >= gameHeight - 95 &&
+            Math.abs(x - playerX) < 55
+        ){
+            clearInterval(fall);
+            heart.remove();
+
+            score++;
+            scoreElement.textContent = score;
+
+            if(score >= 15){
+                winGame();
+            }
+
+            return;
+        }
+
+        /* Missed */
+
+        if(y > gameHeight){
+            clearInterval(fall);
+            heart.remove();
+        }
+
+    },20);
+}
+
+/* Win */
+
+function winGame(){
+
+    gameRunning = false;
+
+    message.style.display = "block";
+
+    for(let i=0;i<50;i++){
+
+        const flower = document.createElement("div");
+
+        flower.innerHTML = Math.random() > 0.5 ? "🌸" : "💖";
+
+        flower.style.position = "fixed";
+        flower.style.left = Math.random()*100 + "vw";
+        flower.style.top = "-50px";
+        flower.style.fontSize = (18 + Math.random()*20) + "px";
+        flower.style.pointerEvents = "none";
+        flower.style.transition = "6s linear";
+
+        document.body.appendChild(flower);
+
+        setTimeout(function(){
+            flower.style.transform =
+            "translateY(110vh) rotate(360deg)";
+        },50);
+
+        setTimeout(function(){
+            flower.remove();
+        },6000);
+    }
+}
+
+/* Spawn hearts */
+
+const heartSpawner = setInterval(function(){
+
+    if(gameRunning){
+        createHeart();
+    }else{
+        clearInterval(heartSpawner);
+    }
+
+},900);
+
+</script>
+
+</body>
+</html>

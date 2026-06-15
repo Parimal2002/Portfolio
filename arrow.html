@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cupid's Arrow ❤️🏹</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    overflow:hidden;
+    background:linear-gradient(180deg,#87ceeb,#ffd6e7);
+}
+
+#game{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+}
+
+h1{
+    position:absolute;
+    width:100%;
+    text-align:center;
+    top:10px;
+    color:white;
+    text-shadow:2px 2px 5px rgba(0,0,0,.3);
+}
+
+#score{
+    position:absolute;
+    top:20px;
+    left:20px;
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+}
+
+#compliment{
+    position:absolute;
+    top:60px;
+    width:100%;
+    text-align:center;
+    color:#fff;
+    font-size:20px;
+    font-weight:600;
+    text-shadow:1px 1px 4px rgba(0,0,0,.3);
+}
+
+#heart{
+    position:absolute;
+    top:100px;
+    left:50px;
+    font-size:60px;
+}
+
+#bow{
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:70px;
+}
+
+.arrow{
+    position:absolute;
+    font-size:38px;
+}
+
+#shootBtn{
+    position:absolute;
+    bottom:25px;
+    right:20px;
+    padding:12px 20px;
+    border:none;
+    border-radius:30px;
+    background:#ff4d79;
+    color:white;
+    font-size:16px;
+}
+
+#winScreen{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:20;
+}
+
+.popup{
+    background:white;
+    width:90%;
+    max-width:380px;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+}
+
+.popup h2{
+    color:#ff4d79;
+    margin-bottom:15px;
+}
+
+.popup p{
+    color:#444;
+    line-height:1.6;
+}
+
+.popup button{
+    margin-top:20px;
+    padding:10px 20px;
+    border:none;
+    border-radius:25px;
+    background:#ff4d79;
+    color:white;
+    cursor:pointer;
+}
+
+.floatHeart{
+    position:absolute;
+    opacity:.3;
+    animation:floatUp linear forwards;
+    pointer-events:none;
+}
+
+@keyframes floatUp{
+    from{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+    20%{opacity:.7;}
+    to{
+        transform:translateY(-120px);
+        opacity:0;
+    }
+}
+</style>
+</head>
+<body>
+
+<div id="game">
+    <h1>🏹 Cupid's Arrow ❤️</h1>
+
+    <div id="score">Hits: 0 / 18</div>
+    <div id="compliment">Hit the heart to unlock sweet messages! 💕</div>
+
+    <div id="heart">❤️</div>
+    <div id="bow">🏹</div>
+
+    <button id="shootBtn">Shoot 🎯</button>
+
+    <div id="winScreen">
+        <div class="popup">
+            <h2>💖 Bullseye! 💖</h2>
+            <p>
+                You hit every target... but you know what?<br><br>
+                You stole my heart long ago, and I never want it back. ❤️🌹
+            </p>
+            <button onclick="location.reload()">Play Again</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const bow = document.getElementById("bow");
+const heart = document.getElementById("heart");
+const scoreText = document.getElementById("score");
+const compliment = document.getElementById("compliment");
+const winScreen = document.getElementById("winScreen");
+const shootBtn = document.getElementById("shootBtn");
+
+let bowX = window.innerWidth / 2;
+let heartX = 50;
+let heartDir = 3;
+let score = 0;
+let gameWon = false;
+
+const messages = [
+    "Your smile is my favorite view. 😊",
+    "You make every day magical. ✨",
+    "You're my happiest place. ❤️",
+    "Life is beautiful with you. 🌸",
+    "You are my best adventure. 🚗",
+    "I love hearing your voice. 🎶",
+    "You are my lucky charm. 🍀",
+    "Every moment with you is special. 💖",
+    "You complete my world. 🌍",
+    "Forever starts with you. 💍"
+];
+
+document.addEventListener("keydown",(e)=>{
+    if(gameWon) return;
+
+    if(e.key==="ArrowLeft"){
+        bowX -= 30;
+    }
+    if(e.key==="ArrowRight"){
+        bowX += 30;
+    }
+    if(e.code==="Space"){
+        shootArrow();
+    }
+
+    bowX = Math.max(40, Math.min(window.innerWidth-40, bowX));
+    bow.style.left = bowX + "px";
+});
+
+document.addEventListener("touchmove",(e)=>{
+    bowX = e.touches[0].clientX;
+    bow.style.left = bowX + "px";
+});
+
+shootBtn.onclick = shootArrow;
+
+function shootArrow(){
+    if(gameWon) return;
+
+    const arrow = document.createElement("div");
+    arrow.className = "arrow";
+    arrow.innerHTML = "🏹";
+    arrow.style.left = (bowX - 10) + "px";
+    arrow.style.bottom = "90px";
+    document.getElementById("game").appendChild(arrow);
+
+    let arrowY = window.innerHeight - 90;
+
+    const fly = setInterval(()=>{
+        arrowY -= 10;
+        arrow.style.top = arrowY + "px";
+
+        const a = arrow.getBoundingClientRect();
+        const h = heart.getBoundingClientRect();
+
+        if(
+            a.left < h.right &&
+            a.right > h.left &&
+            a.top < h.bottom &&
+            a.bottom > h.top
+        ){
+            clearInterval(fly);
+            arrow.remove();
+
+            score++;
+            scoreText.innerHTML = "Hits: " + score + " / 18"
+            compliment.innerHTML = messages[Math.min(score-1,messages.length-1)];
+
+            if(score >= 18){
+                gameWon = true;
+                setTimeout(()=>{
+                    winScreen.style.display = "flex";
+                },500);
+            }
+            return;
+        }
+
+        if(arrowY < -50){
+            clearInterval(fly);
+            arrow.remove();
+        }
+    },20);
+}
+
+// Moving heart
+setInterval(()=>{
+    if(gameWon) return;
+
+    heartX += heartDir;
+
+    if(heartX > window.innerWidth - 80 || heartX < 20){
+        heartDir *= -1;
+    }
+
+    heart.style.left = heartX + "px";
+},16);
+
+// Floating background hearts
+setInterval(()=>{
+    const h = document.createElement("div");
+    h.className = "floatHeart";
+    h.innerHTML = Math.random() > 0.5 ? "💕" : "❤️";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.fontSize = (15 + Math.random()*25) + "px";
+    h.style.animationDuration = (5 + Math.random()*4) + "s";
+    document.body.appendChild(h);
+
+    setTimeout(()=>h.remove(),9000);
+},500);
+</script>
+
+</body>
+</html>

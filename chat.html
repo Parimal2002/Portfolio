@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Chat Story ❤️</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Poppins,sans-serif;
+}
+body{
+    background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.phone{
+    width:95%;
+    max-width:380px;
+    height:700px;
+    background:#fff;
+    border-radius:30px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    display:flex;
+    flex-direction:column;
+}
+.header{
+    background:#ff4d79;
+    color:#fff;
+    text-align:center;
+    padding:18px;
+    font-size:22px;
+    font-weight:bold;
+}
+#chat{
+    flex:1;
+    overflow-y:auto;
+    padding:15px;
+    background:#fff5f8;
+}
+.msg{
+    max-width:80%;
+    padding:10px 15px;
+    margin:8px 0;
+    border-radius:18px;
+    animation:fade .3s;
+}
+.you{
+    background:#ffccd5;
+    margin-left:auto;
+}
+.me{
+    background:white;
+}
+@keyframes fade{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+}
+#typing{
+    padding:10px 15px;
+    color:#777;
+    display:none;
+}
+#choices{
+    padding:12px;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+.choiceBtn{
+    padding:12px;
+    border:none;
+    border-radius:25px;
+    background:#ff4d79;
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+}
+#end{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.85);
+}
+.popup{
+    background:white;
+    width:90%;
+    max-width:380px;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+}
+.popup h2{
+    color:#ff4d79;
+    margin-bottom:15px;
+}
+.popup button{
+    margin-top:20px;
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d79;
+    color:white;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="phone">
+    <div class="header">💕 Our Chat Story</div>
+
+    <div id="chat"></div>
+    <div id="typing">Typing...</div>
+
+    <div id="choices"></div>
+</div>
+
+<div id="end">
+    <div class="popup">
+        <h2>💖 Story Complete 💖</h2>
+        <p>
+            Every conversation with you becomes one of my favorite memories.<br><br>
+            And if I could start my life over again, I'd still send you that very first message. ❤️🌹
+        </p>
+        <button onclick="location.reload()">Replay Story</button>
+    </div>
+</div>
+
+<script>
+const chat=document.getElementById("chat");
+const typing=document.getElementById("typing");
+const choices=document.getElementById("choices");
+
+const scenes=[
+{
+    me:"Hey... I found an old chat today. 😊",
+    options:[
+        "Was it our first chat? 💬",
+        "Tell me more! 👀"
+    ]
+},
+{
+    me:"It reminded me how nervous I was talking to you.",
+    options:[
+        "Aww, that's cute ❤️",
+        "You still get nervous? 😄"
+    ]
+},
+{
+    me:"If we could go anywhere right now, where would you take me?",
+    options:[
+        "A rooftop dinner 🌃",
+        "A long drive 🚗"
+    ]
+},
+{
+    me:"And if I gave you one surprise gift?",
+    options:[
+        "A bouquet of roses 🌹",
+        "A giant chocolate box 🍫"
+    ]
+},
+{
+    me:"One last question... who has my heart forever? ❤️",
+    options:[
+        "Me! 😘",
+        "Definitely me! 💕"
+    ]
+}
+];
+
+let current=0;
+
+function addMessage(text,type){
+    const div=document.createElement("div");
+    div.className="msg "+type;
+    div.innerHTML=text;
+    chat.appendChild(div);
+    chat.scrollTop=chat.scrollHeight;
+}
+
+function loadScene(){
+    if(current>=scenes.length){
+        setTimeout(()=>{
+            document.getElementById("end").style.display="flex";
+        },800);
+        return;
+    }
+
+    choices.innerHTML="";
+    typing.style.display="block";
+
+    setTimeout(()=>{
+        typing.style.display="none";
+        addMessage(scenes[current].me,"me");
+
+        scenes[current].options.forEach(opt=>{
+            const btn=document.createElement("button");
+            btn.className="choiceBtn";
+            btn.innerHTML=opt;
+            btn.onclick=()=>{
+                addMessage(opt,"you");
+                current++;
+                setTimeout(loadScene,700);
+            };
+            choices.appendChild(btn);
+        });
+    },1000);
+}
+
+loadScene();
+</script>
+
+</body>
+</html>

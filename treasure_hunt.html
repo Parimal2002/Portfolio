@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Treasure Hunt ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffd6e7,#ff8fab);
+    overflow:hidden;
+}
+
+.container{
+    width:90%;
+    max-width:500px;
+    background:rgba(255,255,255,.95);
+    padding:30px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    z-index:2;
+}
+
+h1{
+    color:#ff4d79;
+    margin-bottom:15px;
+}
+
+#progress{
+    color:#666;
+    margin-bottom:20px;
+    font-size:15px;
+}
+
+#clue{
+    font-size:20px;
+    color:#444;
+    min-height:70px;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:2px solid #ffb3c6;
+    border-radius:12px;
+    font-size:16px;
+    text-align:center;
+    outline:none;
+}
+
+button{
+    margin-top:15px;
+    padding:12px 30px;
+    border:none;
+    border-radius:30px;
+    background:#ff4d79;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#result{
+    margin-top:15px;
+    min-height:30px;
+    color:#ff4d79;
+    font-weight:bold;
+}
+
+#finalScreen{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
+
+.popup{
+    background:white;
+    width:90%;
+    max-width:400px;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+}
+
+.popup h2{
+    color:#ff4d79;
+    margin-bottom:15px;
+}
+
+.popup p{
+    color:#555;
+    line-height:1.6;
+}
+
+.popup button{
+    margin-top:20px;
+}
+
+.heart{
+    position:fixed;
+    font-size:22px;
+    opacity:.4;
+    animation:floatUp linear forwards;
+    pointer-events:none;
+}
+
+@keyframes floatUp{
+    from{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+    20%{opacity:.8;}
+    to{
+        transform:translateY(-120px);
+        opacity:0;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🕵️ Love Treasure Hunt ❤️</h1>
+
+    <div id="progress">Clue 1 of 5</div>
+
+    <div id="clue"></div>
+
+    <input type="text" id="answer" placeholder="Type your answer here...">
+
+    <button onclick="checkAnswer()">Submit ❤️</button>
+
+    <div id="result"></div>
+</div>
+
+<div id="finalScreen">
+    <div class="popup">
+        <h2>🎉 Treasure Found! ❤️</h2>
+        <p>
+            You solved every clue and reached the end of the adventure.<br><br>
+            But the real treasure was never hidden...<br>
+            <b>It has always been my heart, and it belongs to you. 💖🌹</b>
+        </p>
+        <button onclick="location.reload()">Play Again</button>
+    </div>
+</div>
+
+<script>
+// ❤️ Customize these clues and answers
+const clues = [
+{
+    question: "🌸 Clue 1: In which month did we first meet? (small letters)",
+    answer: "march"
+},
+{
+    question: "🌹 Clue 2: Which flower reminds me of you?",
+    answer: "rose"
+},
+{
+    question: "🍫 Clue 3: What sweet treat would I bring you on a date?",
+    answer: "kala jamun"
+},
+{
+    question: "🚗 Clue 4: What's our dream evening together? (longdrive/movie/dinner)",
+    answer: "dinner"
+},
+{
+    question: "❤️ Final Clue: Who has my heart forever?",
+    answer: "rupali"
+  
+}
+];
+
+let current = 0;
+
+const clueBox = document.getElementById("clue");
+const progress = document.getElementById("progress");
+const result = document.getElementById("result");
+const answerInput = document.getElementById("answer");
+
+function loadClue(){
+    clueBox.innerHTML = clues[current].question;
+    progress.innerHTML = `Clue ${current+1} of ${clues.length}`;
+    answerInput.value = "";
+    answerInput.focus();
+}
+
+function checkAnswer(){
+    const userAnswer = answerInput.value.trim().toLowerCase();
+
+    if(userAnswer === clues[current].answer.toLowerCase()){
+        result.innerHTML = "✅ Correct! Here's your next clue... 💕";
+
+        current++;
+
+        if(current >= clues.length){
+            setTimeout(()=>{
+                document.getElementById("finalScreen").style.display="flex";
+            },800);
+            return;
+        }
+
+        setTimeout(()=>{
+            result.innerHTML = "";
+            loadClue();
+        },1200);
+
+    }else{
+        result.innerHTML = "❌ Oops! Think about our beautiful memories and try again. 💖";
+    }
+}
+
+answerInput.addEventListener("keypress",function(e){
+    if(e.key==="Enter"){
+        checkAnswer();
+    }
+});
+
+loadClue();
+
+// Floating background hearts
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML=Math.random()>0.5?"❤️":"💕";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(18+Math.random()*18)+"px";
+    h.style.animationDuration=(5+Math.random()*4)+"s";
+    document.body.appendChild(h);
+
+    setTimeout(()=>h.remove(),9000);
+},500);
+
+</script>
+
+</body>
+</html>
