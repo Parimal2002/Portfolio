@@ -1,244 +1,647 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Start your development with Meyawo landing page.">
-    <meta name="author" content="Devcrud">
-    <title>Parimal Chaudhari  Engineer</title>
-    <link rel="stylesheet" href="themify-icons/css/themify-icons.css">
-    
-	<link rel="stylesheet" href="css/port.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Forever Story ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
+body{
+font-family:Poppins,sans-serif;
+background:linear-gradient(180deg,#ffdbe9,#fff7fb,#ffe1ef);
+overflow-x:hidden;color:#5f3750}
+section{
+min-height:100vh;display:flex;justify-content:center;align-items:center;
+padding:50px 8%;position:relative}
+.card{
+max-width:900px;background:rgba(255,255,255,.55);
+backdrop-filter:blur(10px);padding:30px;border-radius:30px;
+box-shadow:0 15px 40px rgba(0,0,0,.08);
+animation:fade .8s ease}
+@keyframes fade{from{opacity:0;transform:translateY(40px)}to{opacity:1}}
+h1,h2{font-family:"Great Vibes",cursive;color:#e91e63;text-align:center}
+h1{font-size:4.5rem} h2{font-size:3rem;margin-bottom:15px}
+p{line-height:1.9;margin:12px 0;text-align:center}
+.btn{
+display:inline-block;padding:14px 28px;background:#ff5f97;color:#fff;
+border-radius:50px;text-decoration:none;margin-top:20px}
+#flowers,#hearts{position:fixed;inset:0;pointer-events:none}
+.item{position:absolute;animation:fall linear forwards}
+@keyframes fall{
+from{transform:translateY(-10vh) rotate(0deg)}
+to{transform:translateY(110vh) rotate(360deg)}
+}
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:20px;
+    margin-top:25px;
+    width:100%;
+}
+
+.photo{
+    width:100%;
+    min-height:300px;
+    border:3px dashed #ff8ab7;
+    border-radius:25px;
+    background:#fff;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:0.4s;
+    padding:8px;
+}
+
+.photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;      /* fills the box nicely */
+    border-radius:18px;
+    display:block;
+}
+
+.photo:hover{
+    transform:scale(1.03);
+    box-shadow:0 8px 20px rgba(255,105,180,.25);
+}
+
+/* Mobile View */
+@media (max-width:768px){
+    .gallery{
+        grid-template-columns:1fr;
+        gap:15px;
+    }
+
+    .photo{
+        min-height:250px;
+    }
+
+    .photo img{
+        object-fit:contain; /* shows full image on mobile */
+    }
+    .photo:first-child{
+    grid-column:1 / -1;
+    min-height:350px;
+}
+}
+
+.memory{
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 18px;
+    background: #fff;
+    margin: 8px;
+    cursor: pointer;
+    transition: transform .3s ease;
+}
+
+.memory:hover{
+    transform: scale(1.08);
+}
+#gameBoard{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.heartCard{
+width:100px;height:100px;border-radius:20px;background:#ffb8d0;
+display:flex;justify-content:center;align-items:center;font-size:2rem;
+cursor:pointer;transition:.3s}
+.heartCard.open{background:#fff}
+#proposalText{display:none;font-size:1.2rem;color:#d81b60;margin-top:15px}
+.progress{
+position:fixed;top:0;left:0;height:6px;background:#ff4f8b;width:0;z-index:999}
+.glow{animation:glow 2s infinite alternate}
+@keyframes glow{from{text-shadow:0 0 8px #fff}to{text-shadow:0 0 20px #ff3d83}}
+#gameBoard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+gap:15px;
+margin-top:25px;
+}
+
+.heartCard{
+height:100px;
+border-radius:18px;
+background:#ffb8d0;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:1.8rem;
+cursor:pointer;
+transition:.4s;
+padding:8px;
+text-align:center;
+font-size:14px;
+font-weight:600;
+}
+
+.heartCard:hover{
+transform:scale(1.08) rotate(4deg);
+box-shadow:0 0 15px rgba(255,105,180,.5);
+}
+
+.heartCard.open{
+background:#fff;
+color:#d81b60;
+}
+
+.glowHeart{
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.1);}
+100%{transform:scale(1);}
+}
+
+.gamesGrid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.gameCard{
+background:rgba(255,255,255,0.85);
+padding:20px;
+border-radius:25px;
+text-align:center;
+text-decoration:none;
+color:#d81b60;
+transition:0.4s;
+box-shadow:0 8px 20px rgba(255,105,180,.15);
+border:2px dashed #ffb8d0;
+}
+
+.gameCard:hover{
+transform:translateY(-8px) scale(1.05);
+box-shadow:0 15px 30px rgba(255,105,180,.3);
+background:#fff0f6;
+}
+
+.gameIcon{
+font-size:48px;
+margin-bottom:12px;
+animation:floatIcon 2.5s ease-in-out infinite;
+}
+
+.gameCard h3{
+margin:8px 0;
+font-size:20px;
+color:#e91e63;
+}
+
+.gameCard p{
+font-size:14px;
+line-height:1.5;
+margin:0;
+color:#8b4c68;
+}
+
+@keyframes floatIcon{
+0%{transform:translateY(0);}
+50%{transform:translateY(-8px);}
+100%{transform:translateY(0);}
+}
+
+#musicBtn{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#ff5f97;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:30px;
+    cursor:pointer;
+    z-index:9999;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    transition:0.3s;
+}
+
+#musicBtn:hover{
+    transform:scale(1.05);
+}
+</style>
 </head>
-<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+<body>
+<audio id="bgMusic" autoplay loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
 
-    <!-- Page Navbar -->
-    <nav class="custom-navbar" data-spy="affix" data-offset-top="20">
-        <div class="container">
-            <a class="logo" href="#">PC</a>         
-            <ul class="nav">
-                <li class="item">
-                    <a class="link"  href="#home">Home</a>
-                </li>
-                <li class="item">
-                    <a class="link" href="#about">About</a>
-                </li>
-                <li class="item">
-                    <a class="link" href="#portfolio">Portfolio</a>
-                </li>
-                <!--<li class="item">
-                    <a class="link" href="#testmonial">Testmonial</a>
-                </li>
-                <li class="item">
-                    <a class="link" href="#blog">Blog</a>
-                </li>-->
-                <li class="item">
-                    <a class="link" href="#contact">Contact</a>
-                </li>
-                <!--<li class="item ml-md-3">
-                    <a href="components.html" class="btn btn-primary">Components</a>
-                </li>-->
-            </ul>
-            <a href="javascript:void(0)" id="nav-toggle" class="hamburger hamburger--elastic">
-                <div class="hamburger-box">
-                  <div class="hamburger-inner"></div>
-                </div>
-            </a>
-        </div>          
-    </nav><!-- End of Page Navbar -->
+<button id="musicBtn" onclick="toggleMusic()">
+    🎵 Music ON
+</button>
 
-    <!-- page header -->
-    <header id="home" class="header">
-        <div class="overlay"></div>
-        <div class="header-content container">
-            <h1 class="header-title">
-                <span class="up" >Hi!</span>
-                <span class="down">I am Parimal Chaudhari</span>
-            </h1>
-            <p class="header-subtitle">FULL-STACK DEVELOPER</p>            
+<div class="progress" id="bar"></div>
+<div id="flowers"></div>
+<div id="hearts"></div>
 
-            <button class="btn btn-primary">Visit My Works</button>
-        </div>              
-    </header><!-- end of page header -->
+<section>
+<div class="card">
+<h1>Happy Birthday Rupsss ❤️</h1>
+<p id="typing"></p>
+<p>Today I don't want to give you only a gift. I want to give you our entire journey, one memory at a time.</p>
+</div>
+</section>
 
-    <!-- about section -->
-    <section class="section pt-0" id="about">
-        <!-- container -->
-        <div class="container text-center">
-            <!-- about wrapper -->
-            <div class="about">
-                <div class="about-img-holder">
-                    <img src="imgs/man.png" class="about-img" >
-                </div>
-                <div class="about-caption">
-                    <p class="section-subtitle">Who Am I ?</p>
-                    <h2 class="section-title mb-3">About Me</h2>
-                    <p>
-                        Hello! I am a final-year student pursuing computer engineering at Government College of Engineering, Yavatmal. My academic journey has equipped me with a robust foundation in computer science and engineering principles. Beyond the classroom, I've embraced the world of freelancing, where I've honed my skills as a full-stack web developer. 
-                        <br>As a freelancer, I've had the opportunity to work on real-world projects, demonstrating my proficiency in full-stack web development. From crafting responsive and user-friendly front-end interfaces to designing robust back-end systems, I've embraced the entire development lifecycle. My projects reflect a blend of creativity and functionality, showcasing my commitment to delivering high-quality solutions.
-                        <br> I am open to exciting opportunities that allow me to apply my expertise, learn, and contribute to innovative projects in the world of technology.
-                        <br>Thank you for considering my profile, and I look forward to the prospect of bringing my skills and enthusiasm to your team or project.             
-                    </p>
-                    <button class="btn-rounded btn btn-outline-primary mt-4" onclick="downloadResume()">Download CV</button>
-                </div>              
-            </div><!-- end of about wrapper -->
-        </div><!-- end of container -->
-    </section> <!-- end of about section -->
+<section><div class="card">
+<h2>The First Chapter ✨</h2>
+<p>Our story started at TCS, at the SBI client location. You may call it coincidence, but I think destiny quietly smiled that day. I saw you and, without even speaking much, my heart had already made a decision.</p>
+<p>Sometimes the best stories don't begin with a grand moment. They begin with a simple hello.</p>
+</div></section>
 
-    <!-- service section -->
-    <section class="section" id="service">
-        <div class="container text-center">
-            <p class="section-subtitle">What I Do ?</p>
-            <h6 class="section-title mb-6">Service</h6>
-            <!-- row -->
-            <div class="row">
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="body">
-                            <img src="imgs/responsive.svg"  class="icon">
-                            <h6 class="title">Full-Stack Web Development</h6>
-                            <p class="subtitle">Crafting responsive and user-friendly front-end interfaces, Designing robust back-end systems.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="body">
-                            <img src="imgs/pencil-case.svg"  class="icon">
-                            <h6 class="title">Problem-Solving and Communication</h6>
-                            <p class="subtitle">Thriving in dynamic and challenging environments.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="body">
-                            <img src="imgs/toolbox.svg"  class="icon">
-                            <h6 class="title">Real-World Project Experience</h6>
-                            <p class="subtitle">Demonstrated proficiency through successful completion of real-world projects.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="body">
-                            <img src="imgs/analytics.svg"  class="icon">
-                            <h6 class="title">Open to Opportunities</h6>
-                            <p class="subtitle">Eager to leverage knowledge and skills in the ever-evolving field of computer engineering.</p>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- end of row -->
-        </div>
-    </section><!-- end of service section -->
+<section><div class="card">
+<h2>The Smile I Waited For 😊</h2>
+<p>Every day in the office, I looked for one thing—your smile. Those little eye contacts, those shy blushing moments, those tiny conversations in between work slowly became the best part of my day.</p>
+<div class="gallery">
+<div class="photo"><img src="1.png" alt=""></div>
+<div class="photo"><img src="2.png" alt=""></div>
+<div class="photo"><img src="3.png" alt=""></div>
+<div class="photo"><img src="4.png" alt=""></div>
+</div>
+</div></section>
 
-    <!-- portfolio section -->
-    <section class="section" id="portfolio">
-        <div class="container text-center">
-            <p class="section-subtitle">What I Did ?</p>
-            <h6 class="section-title mb-6">Portfolio</h6>
-            <!-- row -->
-            <div class="row">
-                <div class="col-md-4">
-                    <a href="#" class="portfolio-card">
-                        <img src="imgs/folio-1.jpg" class="portfolio-card-img" >    
-                        <span class="portfolio-card-overlay">
-                            <span class="portfolio-card-caption">
-                                <h4>Web Designing</h5>
-                                <p class="font-weight-normal">Category: Web Animation</p>
-                            </span>                         
-                        </span>                     
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <a href="#" class="portfolio-card">
-                        <img class="portfolio-card-img" src="imgs/folio-2.jpg" class="img-responsive rounded" >
-                        <span class="portfolio-card-overlay">
-                            <span class="portfolio-card-caption">
-                                <h4>UI/UX Designing</h5>
-                                <p class="font-weight-normal">Category: Visual Design</p>
-                            </span>                         
-                        </span>                         
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <a href="#" class="portfolio-card">
-                        <img class="portfolio-card-img" src="imgs/folio-3.jpg" class="img-responsive rounded" >    
-                        <span class="portfolio-card-overlay">
-                            <span class="portfolio-card-caption">
-                                <h4>Data Analytics</h5>
-                                <p class="font-weight-normal">Category: Database Management</p>
-                            </span>                         
-                        </span>                     
-                    </a>
-                </div>
-            </div><!-- end of row -->
-        </div><!-- end of container -->
-    </section> <!-- end of portfolio section -->
+<section><div class="card">
+<h2>The Lunch Box of Love 🍱</h2>
+<p>Mumbai was lonely because I had no one here. Then you came into my life and changed that. You made chapati and sabji for me, and every lunch break became a small celebration. We didn't just eat together—we shared dreams, worries, jokes and hopes.</p>
+<p><b>You didn't just cook food for me. You made Mumbai feel like home.</b></p>
+</div></section>
 
-   
+<section><div class="card">
+<h2>Our Railway Platform 🚉</h2>
+<p>Every evening, I walked with you to the station. Watching your train leave and making sure you reached safely became my favorite ritual. Only after that did I begin my own journey home.</p>
+<p><i>"Some people wait for trains. I waited for one more smile from you."</i></p>
+</div></section>
 
-    <!-- section -->
-    <section class="section-sm bg-primary">
-        <!-- container -->
-        <div class="container text-center text-sm-left">
-            <!-- row -->
-            <div class="row align-items-center">
-                <div class="col-sm offset-md-1 mb-4 mb-md-0">
-                    <h6 class="title text-light">Want to work with me?</h6>
-                    <p class="m-0 text-light">Always feel Free to Contact & Hire me</p>
-                </div>
-                <div class="col-sm offset-sm-2 offset-md-3">
-                    <button class="btn btn-lg my-font btn-light rounded">Hire Me</button>
-                </div>
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </section> <!-- end of section -->
+<section><div class="card">
+<h2>Our Little Fights ❤️‍🩹</h2>
+<p>Sometimes our relationship was 90-10. Sometimes 50-50. Sometimes 10-90. But we never kept score. We argued, we got angry, we misunderstood each other—but we never stopped choosing each other.</p>
+<p>You call me childish, immature and irresponsible. Maybe I still have a lot to learn. But one thing I know is that I will always keep trying to become a better man because you believed I could be one.</p>
+</div></section>
 
-    
+<section><div class="card">
+<h2>Bhagirathi + Alaknanda = Ganga 🌊</h2>
+<p>You are like Bhagirathi—strong and fierce. I try to be like Alaknanda—calm and patient. And when we meet, we become Ganga: peace born from two beautiful rivers flowing together.</p>
+</div></section>
 
-    <!-- contact section -->
-    <section class="section" id="contact">
-        <div class="container text-center">
-            <p class="section-subtitle">How can you communicate?</p>
-            <h6 class="section-title mb-5">Contact Me</h6>
-            <!-- contact form -->
-            <form action="" class="contact-form col-md-10 col-lg-8 m-auto">
-                <div class="form-row">
-                    <div class="form-group col-sm-6">
-                        <input type="text" size="50" class="form-control" placeholder="Your Name" required>                 
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <input type="email" class="form-control" placeholder="Enter Email"requried>                 
-                    </div>
-                    <div class="form-group col-sm-12">
-                        <textarea name="comment" id="comment" rows="6"   class="form-control" placeholder="Write Something"></textarea>
-                    </div>
-                    <div class="form-group col-sm-12 mt-3">
-                        <input type="submit" value="Send Message" class="btn btn-outline-primary rounded">                  
-                    </div>
-                </div>  
-            </form><!-- end of contact form -->
-        </div><!-- end of container -->
-    </section><!-- end of contact section -->
+<section><div class="card">
+<h2>Memory Click Game 🎮</h2>
+<p>Click every heart to reveal a hidden memory.</p>
+<div id="gameBoard">
+<div class="heartCard" onclick="flip(this,'🍱 Lunch Together')">❤️</div>
+<div class="heartCard" onclick="flip(this,'🚉 Station Walks')">❤️</div>
+<div class="heartCard" onclick="flip(this,'😊 Office Smiles')">❤️</div>
+<div class="heartCard" onclick="flip(this,'🌹 Forever Us')">❤️</div>
+</div>
+</div></section>
 
-    <!-- footer -->
-    <div class="container">
-        <footer class="footer">       
-            
-            <div class="social-links text-right m-auto ml-sm-auto">
-                <a href="javascript:void(0)" class="link"><i class="ti-facebook"></i></a>
-                <a href="javascript:void(0)" class="link"><i class="ti-twitter-alt"></i></a>
-                <a href="javascript:void(0)" class="link"><i class="ti-google"></i></a>
-                <a href="javascript:void(0)" class="link"><i class="ti-instagram"></i></a>
-            </div>
-        </footer>
-    </div> <!-- end of page footer -->
-	
-    <script src="jquery/jquery-3.4.1.js"></script>
-    <script src="bootstrap/bootstrap.bundle.js"></script>
-	<script src="bootstrap/bootstrap.affix.js"></script>
-    <script src="js/meyawo.js"></script>
+<section>
+<div class="card">
+<h2>18 Memories of Us 🎮❤️</h2>
+<p>Click every heart and unlock a beautiful memory from our journey.</p>
 
+<div id="gameBoard">
+
+<div class="heartCard" onclick="flip(this,'🌸 Our first meeting at SBI')">❤️</div>
+<div class="heartCard" onclick="flip(this,'😊 Your office smile')">❤️</div>
+<div class="heartCard" onclick="flip(this,'☕ Our first long conversation')">❤️</div>
+<div class="heartCard" onclick="flip(this,'🍱 The lunch you made for me')">❤️</div>
+<div class="heartCard" onclick="flip(this,'🚉 Walking you to the station')">❤️</div>
+<div class="heartCard" onclick="flip(this,'📱 Waiting for your messages')">❤️</div>
+
+<div class="heartCard" onclick="flip(this,'❤️ The day friendship became love')">❤️</div>
+<div class="heartCard" onclick="flip(this,'😂 Our silly fights')">❤️</div>
+<div class="heartCard" onclick="flip(this,'🤗 Every time we said sorry')">❤️</div>
+<div class="heartCard" onclick="flip(this,'🛵 The day I taught you to ride a scooty')">❤️</div>
+<div class="heartCard" onclick="flip(this,'👨‍👩‍👧 Talking with my mother')">❤️</div>
+<div class="heartCard" onclick="flip(this,'🎁 Taking gifts for your family')">❤️</div>
+
+<div class="heartCard" onclick="flip(this,'🌊 Bhagirathi + Alaknanda = Ganga')">❤️</div>
+<div class="heartCard" onclick="flip(this,'🌹 You became my Annapurna')">❤️</div>
+<div class="heartCard" onclick="flip(this,'✨ All the office blush moments')">❤️</div>
+<div class="heartCard" onclick="flip(this,'🏡 Our dream of marriage')">❤️</div>
+<div class="heartCard" onclick="flip(this,'💖 We never gave up on each other')">❤️</div>
+<div class="heartCard glowHeart" onclick="unlockFinal(this)">💍</div>
+
+</div>
+
+<p id="memoryComplete" style="display:none;margin-top:20px;color:#d81b60;font-weight:bold;">
+🎉 You unlocked every memory of our journey... now there is only one memory left to create... our forever. ❤️
+</p>
+
+</div>
+</section>
+<section><div class="card">
+<h2>Reasons I Fell For You 💕</h2>
+<div id="reasons" style="min-height:70px;font-size:1.1rem;text-align:center"></div>
+</div></section>
+
+<section>
+<div class="card">
+<h2>🛵 One of My Favorite Adventures</h2>
+
+<div class="gallery">
+    <div class="photo">
+        <img src="scooty.png" alt="Scooty Memory">
+    </div>
+</div>
+
+<p>
+One of my favorite memories will always be the day I taught you how to ride a scooty.
+You trusted me, laughed with me, and somehow turned a simple little lesson into a memory I'll treasure forever.
+</p>
+
+<p>
+Maybe it was just a scooty ride for everyone else...
+But for me, it was another small journey we started together. ❤️
+</p>
+</div>
+</section>
+<section><div class="card">
+<h2>Our Future Bucket List 🌸</h2>
+<div class="memory">☑ Travel Together</div>
+<div class="memory">☑ Celebrate Every Birthday</div>
+<div class="memory">☑ Cook Together</div>
+<div class="memory">☑ Build Our Home</div>
+<div class="memory">☑ Grow Old Together</div>
+<p style="margin-top:20px">I don't dream of a perfect life. I dream of an ordinary life with you in it.</p>
+</div></section>
+
+
+<section>
+<div class="card">
+<h2 class="glow">🎮 Our Love Games Arcade ❤️</h2>
+
+<p>
+Every memory of us became a little game of love.
+Click on any heart below and let's relive our journey together,
+one adventure at a time. 🌸
+</p>
+
+<div class="gamesGrid">
+
+<a href="love_quiz.html" class="gameCard">
+<div class="gameIcon">💖</div>
+<h3>Kon Banega DBA Queen</h3>
+<p>Well its just for fun!</p>
+</a>
+
+<a href="photo_puzzle.html" class="gameCard">
+<div class="gameIcon">🧩</div>
+<h3>Photo Puzzle</h3>
+<p>Complete our beautiful memory.</p>
+</a>
+
+<a href="puzzle_matching.html" class="gameCard">
+<div class="gameIcon">💕</div>
+<h3>Memory Match</h3>
+<p>Find matching love memories.</p>
+</a>
+
+<a href="catch_heart.html" class="gameCard">
+<div class="gameIcon">💘</div>
+<h3>Catch Hearts</h3>
+<p>Catch all my love for you.</p>
+</a>
+
+<a href="teddy_catching.html" class="gameCard">
+<div class="gameIcon">🧸</div>
+<h3>Teddy Catch</h3>
+<p>Catch all the cute teddies.</p>
+</a>
+
+<a href="rocket.html" class="gameCard">
+<div class="gameIcon">🚀</div>
+<h3>Love Rocket</h3>
+<p>Fly through the stars together.</p>
+</a>
+
+<a href="runner.html" class="gameCard">
+<div class="gameIcon">🏃‍♂️</div>
+<h3>Forever Runner</h3>
+<p>Run towards our future.</p>
+</a>
+
+<a href="spin.html" class="gameCard">
+<div class="gameIcon">🎡</div>
+<h3>Spin of Destiny</h3>
+<p>Let fate choose our memory.</p>
+</a>
+
+<a href="treasure_hunt.html" class="gameCard">
+<div class="gameIcon">🗺️</div>
+<h3>Treasure Hunt</h3>
+<p>Find hidden pieces of our love.</p>
+</a>
+
+<a href="detective.html" class="gameCard">
+<div class="gameIcon">🕵️‍♀️</div>
+<h3>Love Detective</h3>
+<p>Solve clues from our story.</p>
+</a>
+
+<a href="escape.html" class="gameCard">
+<div class="gameIcon">🔐</div>
+<h3>Escape Together</h3>
+<p>Escape only with teamwork.</p>
+</a>
+
+<a href="vault.html" class="gameCard">
+<div class="gameIcon">🔒</div>
+<h3>Love Vault</h3>
+<p>Unlock our secret memories.</p>
+</a>
+
+<a href="lost_memory.html" class="gameCard">
+<div class="gameIcon">📖</div>
+<h3>Lost Memory</h3>
+<p>Recover our forgotten moments.</p>
+</a>
+
+<a href="bomb_dufuse.html" class="gameCard">
+<div class="gameIcon">💣</div>
+<h3>Defuse the Bomb</h3>
+<p>Save our date before time runs out!</p>
+</a>
+
+<a href="chat.html" class="gameCard">
+<div class="gameIcon">💬</div>
+<h3>Chat Story</h3>
+<p>Read our sweetest conversations.</p>
+</a>
+
+<a href="arrow.html" class="gameCard">
+<div class="gameIcon">🏹</div>
+<h3>Arrow BOOM</h3>
+<p>Shoot the arrows and collect love points.</p>
+</a>
+<a href="scooty_game.html" class="gameCard">
+<div class="gameIcon">🛵</div>
+<h3>Scooty Ride</h3>
+<p>The day I taught you to ride.</p>
+</a>
+
+</div>
+
+<div style="text-align:center;margin-top:30px;">
+<p style="font-size:18px;color:#d81b60;font-weight:bold;">
+✨ 16 Games • Countless Memories • One Beautiful Love Story ✨
+</p>
+</div>
+
+</div>
+</section>
+
+
+<section><div class="card">
+<h2 class="glow">Choose Wisely 🌹</h2>
+<p><b>"Choose wisely. It's a long journey."</b></p>
+<p>If you choose me, I promise to choose you every day—when life is easy, when life is difficult, and on every ordinary day in between.</p>
+</div></section>
+
+
+
+<section>
+<div class="card">
+    <h2 class="glow">One Last Surprise... 🎁</h2>
+
+    <p>
+        If you've reached this far, it means you've relived every memory,
+        every smile, every little fight, every station goodbye,
+        and every moment that made our story beautiful.
+    </p>
+
+    <p>
+        But our story isn't over yet...
+        There is one last page waiting for you,
+        and it holds the most important question of my life. ❤️
+    </p>
+
+    <div style="text-align:center;margin-top:35px;">
+        <button class="btn" onclick="openFinalPage()">
+            Open Our Forever ➜ 💍
+        </button>
+    </div>
+</div>
+</section>
+
+
+<script>
+const msg="Some people come into our life for a season... but you came into mine to become my forever. 🌸";
+let i=0; (function type(){ if(i<msg.length){typing.innerHTML+=msg[i++];setTimeout(type,40);} })();
+
+function create(el,sym){
+const d=document.createElement("div");
+d.className="item"; d.innerHTML=sym;
+d.style.left=Math.random()*100+"vw";
+d.style.fontSize=(16+Math.random()*20)+"px";
+d.style.animationDuration=(5+Math.random()*5)+"s";
+el.appendChild(d); setTimeout(()=>d.remove(),10000);
+}
+setInterval(()=>create(flowers,Math.random()>.5?"🌹":"🌸"),250);
+setInterval(()=>create(hearts,"💖"),600);
+
+function flip(card,text){card.classList.add("open");card.innerHTML=text;}
+
+const list=[
+"Because you always care for me.",
+"Because your smile brightens my day.",
+"Because you made lunch for me with love.",
+"Because you support me even when I make mistakes.",
+"Because every goodbye at the station made me love you more.",
+"Because I can imagine my whole future with you."
+];
+let idx=0;
+setInterval(()=>{
+document.getElementById("reasons").innerHTML="❤️ "+list[idx];
+idx=(idx+1)%list.length;
+},2200);
+
+window.addEventListener("scroll",()=>{
+let h=document.documentElement.scrollHeight-window.innerHeight;
+bar.style.width=(window.scrollY/h*100)+"%";
+});
+
+function answer(){
+document.getElementById("proposalText").style.display="block";
+for(let i=0;i<30;i++){
+setTimeout(()=>create(flowers,"🎉"),i*80);
+}
+}
+let opened = 0;
+
+function flip(card, text){
+    if(!card.classList.contains("open")){
+        card.classList.add("open");
+        card.innerHTML = text;
+        opened++;
+    }
+}
+
+
+function openFinalPage(){
+    window.location.href = "will.html";
+}
+function unlockFinal(card){
+    card.classList.add("open");
+    card.innerHTML = "Forever ❤️";
+    document.getElementById("memoryComplete").style.display = "block";
+}
+let noMessages = [
+"Are you sure? 🥺",
+"Think again ❤️",
+"The answer should be Yes 😄",
+"Nice try! 😂",
+"You can't escape destiny 🌹"
+];
+
+let noCount = 0;
+
+function moveNo(){
+    const btn = document.getElementById("noBtn");
+
+    btn.style.position = "absolute";
+    btn.style.left = Math.random()*70 + "vw";
+    btn.style.top = Math.random()*60 + "vh";
+
+    if(noCount < noMessages.length){
+        btn.innerHTML = noMessages[noCount];
+        noCount++;
+    } else {
+        btn.style.transform = "scale(0.5)";
+        btn.innerHTML = "Only Yes ❤️";
+    }
+}
+setTimeout(()=>{
+    document.querySelector("#proposalSection").scrollIntoView({
+        behavior:"smooth"
+    });
+}, 2500);
+
+
+
+
+const bgMusic = document.getElementById("bgMusic");
+
+
+bgMusic.volume = 0.9;
+
+document.addEventListener("click", function () {
+    bgMusic.play().catch(() => {});
+}, { once: true });
+
+
+function toggleMusic(){
+    if(bgMusic.paused){
+        bgMusic.play();
+        document.getElementById("musicBtn").innerHTML = "🎵 Music ON";
+    }else{
+        bgMusic.pause();
+        document.getElementById("musicBtn").innerHTML = "🔇 Music OFF";
+    }
+}
+</script>
 </body>
 </html>
