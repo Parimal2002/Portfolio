@@ -8,10 +8,71 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
+
+
 body{
 font-family:Poppins,sans-serif;
 background:linear-gradient(180deg,#ffdbe9,#fff7fb,#ffe1ef);
-overflow-x:hidden;color:#5f3750}
+  overflow:hidden}
+/*overflow-x:hidden;color:#5f3750}*/
+/* Password Screen */
+#lockScreen{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:linear-gradient(180deg,#ffdbe9,#fff7fb,#ffe1ef);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999999;
+}
+
+.lockCard{
+    background:#fff;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    width:90%;
+    max-width:400px;
+}
+
+.lockCard h2{
+    color:#e91e63;
+    margin-bottom:20px;
+}
+
+.lockCard input{
+    width:100%;
+    padding:12px;
+    border:2px solid #ff8ab7;
+    border-radius:12px;
+    font-size:16px;
+    outline:none;
+    margin-bottom:15px;
+}
+
+.lockCard button{
+    background:#ff5f97;
+    color:#fff;
+    border:none;
+    padding:12px 25px;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.lockCard button:hover{
+    background:#e91e63;
+}
+
+#error{
+    color:red;
+    margin-top:10px;
+    display:none;
+}
 section{
 min-height:100vh;display:flex;justify-content:center;align-items:center;
 padding:50px 8%;position:relative}
@@ -238,6 +299,25 @@ color:#8b4c68;
 <div id="flowers"></div>
 <div id="hearts"></div>
 
+
+<div id="lockScreen">
+    <div class="lockCard">
+        <h2>🔒 Private Birthday Surprise</h2>
+
+        <p>Enter our special password ❤️</p>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter Password"
+            onkeypress="if(event.key==='Enter') checkPassword()"
+        >
+
+        <button onclick="checkPassword()">Unlock ❤️</button>
+
+        <p id="error">Wrong Password 😢</p>
+    </div>
+</div>
 <section>
 <div class="card">
 <h1>Happy Birthday Rupsss ❤️</h1>
@@ -641,6 +721,40 @@ function toggleMusic(){
         bgMusic.pause();
         document.getElementById("musicBtn").innerHTML = "🔇 Music OFF";
     }
+}
+
+// Change this password
+//const correctPassword = "Rupsss";
+
+/*function checkPassword(){
+
+    const entered = document.getElementById("password").value;
+
+    if(entered === correctPassword){
+
+        document.getElementById("lockScreen").style.display="none";
+
+    }else{
+
+        document.getElementById("error").style.display="block";
+        document.getElementById("password").value="";
+    }
+
+}*/
+function checkPassword(){
+
+    const entered=document.getElementById("password").value;
+
+    if(entered==="Rupsss"){
+
+        document.getElementById("lockScreen").style.display="none";
+        document.body.style.overflow="auto";
+
+    }else{
+
+        document.getElementById("error").style.display="block";
+    }
+
 }
 </script>
 </body>
