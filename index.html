@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Portfolio of Parimal Rajesh Chaudhari — Web Server Administrator at Tata Consultancy Services, supporting the SBI client engagement through Linux administration, production support, monitoring, SQL and automation.">
+    <meta name="author" content="Parimal Rajesh Chaudhari">
+    <meta name="theme-color" content="#07111f">
+    <meta property="og:title" content="Parimal Chaudhari | Web Server Administrator">
+    <meta property="og:description" content="Linux operations, production support and automation for enterprise banking systems.">
+    <meta property="og:type" content="website">
+    <title>Parimal Chaudhari | Web Server Administrator</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2224%22 fill=%22%2307111f%22/><text x=%2250%22 y=%2267%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22%232de2c5%22 font-family=%22Arial%22 font-weight=%22700%22>PC</text></svg>">
+    <link rel="stylesheet" href="css/port.css">
+</head>
+<body>
+    <canvas id="network-canvas" aria-hidden="true"></canvas>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header" id="home">
+        <nav class="navbar shell" aria-label="Primary navigation">
+            <a class="brand" href="#home" aria-label="Parimal Chaudhari — home">
+                <span class="brand-mark" aria-hidden="true">PC</span>
+                <span class="brand-copy">
+                    <strong>Parimal</strong>
+                    <small>Web Server Admin</small>
+                </span>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="nav-links" id="nav-links">
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <button class="theme-toggle" type="button" aria-label="Switch to light theme" title="Change theme">
+                <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+            </button>
+        </nav>
+
+        <section class="hero shell" aria-labelledby="hero-title">
+            <div class="hero-copy reveal">
+                <div class="eyebrow"><span class="status-dot"></span> Available for the next challenge</div>
+                <h1 id="hero-title">Keeping enterprise systems <span class="gradient-text">stable, secure &amp; moving.</span></h1>
+                <p class="hero-lead">I’m <strong>Parimal Chaudhari</strong>, a Web Server Administrator at <strong>Tata Consultancy Services</strong>, supporting the <strong>SBI client engagement</strong> with Linux operations, production monitoring and automation.</p>
+
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#projects">Explore my work <span aria-hidden="true">↗</span></a>
+                    <a class="button button-ghost" href="https://linkedin.com/in/parimalchaudhari" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+
+                <div class="hero-meta" aria-label="Profile summary">
+                    <div><span>Role</span><strong>Web Server Administrator</strong></div>
+                    <div><span>Employer</span><strong>TCS</strong></div>
+                    <div><span>Client site</span><strong>SBI</strong></div>
+                </div>
+            </div>
+
+            <div class="hero-visual reveal" data-delay="120">
+                <div class="orbit orbit-one" aria-hidden="true"></div>
+                <div class="orbit orbit-two" aria-hidden="true"></div>
+                <div class="terminal-card tilt-card">
+                    <div class="terminal-topbar">
+                        <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                        <span>parimal@operations</span>
+                        <span class="live-label">LIVE</span>
+                    </div>
+                    <div class="terminal-body" aria-label="Animated operations terminal">
+                        <p><span class="prompt">$</span> profile --current</p>
+                        <p class="terminal-output">TCS / SBI client engagement</p>
+                        <p><span class="prompt">$</span> skills --core</p>
+                        <p class="terminal-output" id="typed-output">Linux • Monitoring • Bash • SQL</p>
+                        <p><span class="prompt">$</span> systemctl status services</p>
+                        <p class="terminal-success"><span>●</span> Operational</p>
+                        <div class="terminal-grid">
+                            <div><span>UPTIME</span><strong>99.9%</strong></div>
+                            <div><span>FOCUS</span><strong>Reliability</strong></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="floating-chip chip-linux">LINUX</div>
+                <div class="floating-chip chip-bash">&gt;_ BASH</div>
+                <div class="floating-chip chip-sql">SQL</div>
+            </div>
+
+            <a class="scroll-cue" href="#about" aria-label="Scroll to about section"><span></span>Scroll</a>
+        </section>
+    </header>
+
+    <main id="main-content">
+        <section class="section shell" id="about">
+            <div class="section-heading reveal">
+                <p class="section-kicker">01 / About</p>
+                <h2>Operations mindset.<br><span class="muted">Developer curiosity.</span></h2>
+            </div>
+
+            <div class="about-grid">
+                <article class="about-copy glass-card reveal">
+                    <p class="large-copy">I help keep business-critical systems dependable by combining careful monitoring, structured troubleshooting and practical automation.</p>
+                    <p>I work for Tata Consultancy Services as a Web Server Administrator at the SBI client site. My day-to-day work spans Linux server operations, application and scheduler monitoring, log investigation, deployment support, SQL-based validation and secure file-transfer workflows.</p>
+                    <p>Alongside production support, I build web projects and continue developing my DevOps toolkit across cloud, containers, infrastructure automation and CI/CD.</p>
+                    <div class="identity-note">
+                        <span aria-hidden="true">i</span>
+                        <p><strong>Employment clarity:</strong> TCS is my employer; SBI is the client engagement I support.</p>
+                    </div>
+                </article>
+
+                <div class="about-aside reveal" data-delay="100">
+                    <div class="profile-card tilt-card">
+                        <div class="profile-monogram">PC</div>
+                        <div>
+                            <p class="micro-label">Based in</p>
+                            <h3>Maharashtra, India</h3>
+                        </div>
+                        <div>
+                            <p class="micro-label">Education</p>
+                            <h3>B.Tech in Computer Science &amp; Engineering</h3>
+                            <p>Government College of Engineering, Yavatmal</p>
+                        </div>
+                        <div class="profile-tags">
+                            <span>Production Support</span><span>Automation</span><span>DevOps Learner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-tinted" id="experience">
+            <div class="shell">
+                <div class="section-heading reveal">
+                    <p class="section-kicker">02 / Experience</p>
+                    <h2>Enterprise support,<br><span class="muted">where reliability matters.</span></h2>
+                </div>
+
+                <div class="experience-layout">
+                    <div class="experience-card glass-card reveal">
+                        <div class="experience-brand">
+                            <div class="company-mark">TCS</div>
+                            <div>
+                                <p class="micro-label">Tata Consultancy Services</p>
+                                <h3>Web Server Administrator</h3>
+                                <p>SBI client engagement · India</p>
+                            </div>
+                        </div>
+                        <span class="current-badge"><span></span> Current role</span>
+                    </div>
+
+                    <div class="responsibility-list">
+                        <article class="responsibility reveal">
+                            <span class="item-number">01</span>
+                            <div><h3>Production monitoring</h3><p>Monitor servers, services, schedulers and application workflows; investigate logs and follow issues through resolution.</p></div>
+                        </article>
+                        <article class="responsibility reveal">
+                            <span class="item-number">02</span>
+                            <div><h3>Deployment support</h3><p>Coordinate and validate UAT and production changes while following structured change and approval processes.</p></div>
+                        </article>
+                        <article class="responsibility reveal">
+                            <span class="item-number">03</span>
+                            <div><h3>Data validation</h3><p>Use SQL queries to retrieve, verify and troubleshoot operational data for application and payment workflows.</p></div>
+                        </article>
+                        <article class="responsibility reveal">
+                            <span class="item-number">04</span>
+                            <div><h3>Automation &amp; file flows</h3><p>Create shell scripts for secure SFTP transfers, file classification, acknowledgements and detailed execution logging.</p></div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section shell" id="skills">
+            <div class="section-heading reveal">
+                <p class="section-kicker">03 / Toolkit</p>
+                <h2>Built for support today.<br><span class="muted">Growing toward DevOps.</span></h2>
+            </div>
+
+            <div class="skills-grid">
+                <article class="skill-panel glass-card reveal">
+                    <div class="skill-icon" aria-hidden="true">⌁</div>
+                    <p class="micro-label">Daily operations</p>
+                    <h3>Systems &amp; support</h3>
+                    <div class="tag-cloud"><span>Linux</span><span>RHEL</span><span>Monitoring</span><span>Log analysis</span><span>Incident support</span><span>Deployments</span></div>
+                </article>
+                <article class="skill-panel glass-card reveal" data-delay="70">
+                    <div class="skill-icon" aria-hidden="true">&gt;_</div>
+                    <p class="micro-label">Automation &amp; data</p>
+                    <h3>Scripts &amp; workflows</h3>
+                    <div class="tag-cloud"><span>Bash</span><span>Shell scripting</span><span>SFTP</span><span>SQL</span><span>Schedulers</span><span>Git</span></div>
+                </article>
+                <article class="skill-panel glass-card reveal" data-delay="140">
+                    <div class="skill-icon" aria-hidden="true">△</div>
+                    <p class="micro-label">Currently expanding</p>
+                    <h3>Cloud &amp; DevOps</h3>
+                    <div class="tag-cloud learning-tags"><span>Docker</span><span>Kubernetes</span><span>GCP</span><span>Terraform</span><span>CI/CD</span><span>Ansible</span></div>
+                </article>
+            </div>
+
+            <div class="command-strip reveal" aria-label="Technical workflow">
+                <span class="command-prefix">parimal@devops:~$</span>
+                <span id="command-text">monitor → investigate → automate → improve</span>
+                <span class="terminal-cursor" aria-hidden="true"></span>
+            </div>
+        </section>
+
+        <section class="section section-tinted" id="projects">
+            <div class="shell">
+                <div class="section-heading split-heading reveal">
+                    <div>
+                        <p class="section-kicker">04 / Selected work</p>
+                        <h2>Problems turned<br><span class="muted">into practical systems.</span></h2>
+                    </div>
+                    <div class="project-filters" role="group" aria-label="Filter projects">
+                        <button class="filter-button active" type="button" data-filter="all">All</button>
+                        <button class="filter-button" type="button" data-filter="operations">Operations</button>
+                        <button class="filter-button" type="button" data-filter="development">Development</button>
+                    </div>
+                </div>
+
+                <div class="projects-grid">
+                    <article class="project-card reveal" data-category="operations">
+                        <div class="project-top">
+                            <span class="project-index">01</span>
+                            <div class="project-symbol transfer-symbol" aria-hidden="true"><span>XML</span><i>→</i><span>SFTP</span></div>
+                        </div>
+                        <div class="project-content">
+                            <p class="project-type">Shell automation · Operations</p>
+                            <h3>Secure SFTP File Automation</h3>
+                            <p>Automated request and acknowledgement file transfers, filename-based routing, status logging and endpoint visibility for dependable operations.</p>
+                            <div class="project-tags"><span>Bash</span><span>Linux</span><span>SFTP</span></div>
+                        </div>
+                    </article>
+
+                    <article class="project-card reveal" data-category="operations" data-delay="70">
+                        <div class="project-top">
+                            <span class="project-index">02</span>
+                            <div class="project-symbol pulse-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+                        </div>
+                        <div class="project-content">
+                            <p class="project-type">Production support · Banking</p>
+                            <h3>Workflow Monitoring &amp; Validation</h3>
+                            <p>Supported scheduler acknowledgement flows, operational investigations and SQL-based data checks across enterprise payment processes.</p>
+                            <div class="project-tags"><span>Monitoring</span><span>SQL</span><span>Logs</span></div>
+                        </div>
+                    </article>
+
+                    <article class="project-card reveal" data-category="development" data-delay="140">
+                        <div class="project-top">
+                            <span class="project-index">03</span>
+                            <div class="project-symbol web-symbol" aria-hidden="true">&lt;/&gt;</div>
+                        </div>
+                        <div class="project-content">
+                            <p class="project-type">Web development · Education</p>
+                            <h3>College Information Website</h3>
+                            <p>Designed and developed a responsive college website with course discovery, admissions information, infrastructure sections and contact features.</p>
+                            <div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                        </div>
+                    </article>
+
+                    <article class="project-card reveal" data-category="development">
+                        <div class="project-top">
+                            <span class="project-index">04</span>
+                            <div class="project-symbol video-symbol" aria-hidden="true"><span>▶</span></div>
+                        </div>
+                        <div class="project-content">
+                            <p class="project-type">Python · Creator tool</p>
+                            <h3>ShortForge AI</h3>
+                            <p>Built a Flask-based workflow that analyzes video speech and identifies suitable moments for short-form clips using media-processing tools.</p>
+                            <div class="project-tags"><span>Python</span><span>Flask</span><span>FFmpeg</span></div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="projects-footer reveal">
+                    <p>More experiments, learning projects and source code live on GitHub.</p>
+                    <a class="text-link" href="https://github.com/Parimal2002" target="_blank" rel="noopener noreferrer">github.com/Parimal2002 <span aria-hidden="true">↗</span></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section shell" id="journey">
+            <div class="section-heading reveal">
+                <p class="section-kicker">05 / Journey</p>
+                <h2>Learning by building,<br><span class="muted">improving by operating.</span></h2>
+            </div>
+            <div class="timeline">
+                <article class="timeline-item reveal">
+                    <span class="timeline-dot"></span>
+                    <p class="micro-label">Foundation</p>
+                    <h3>B.Tech — Computer Science &amp; Engineering</h3>
+                    <p>Government College of Engineering, Yavatmal · Dr. Babasaheb Ambedkar Technological University</p>
+                </article>
+                <article class="timeline-item reveal">
+                    <span class="timeline-dot"></span>
+                    <p class="micro-label">Professional chapter</p>
+                    <h3>Joined Tata Consultancy Services</h3>
+                    <p>Moved from academic web projects into enterprise operations and production support.</p>
+                </article>
+                <article class="timeline-item reveal">
+                    <span class="timeline-dot current"></span>
+                    <p class="micro-label">Now</p>
+                    <h3>Web Server Administration · SBI client site</h3>
+                    <p>Supporting reliable banking workflows while building skills for the next step in DevOps.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="contact-section" id="contact">
+            <div class="shell contact-inner reveal">
+                <p class="section-kicker">06 / Contact</p>
+                <h2>Let’s build something<br><span class="gradient-text">reliable together.</span></h2>
+                <p>I’m open to conversations around Linux administration, production support, cloud operations and DevOps opportunities.</p>
+                <div class="contact-actions">
+                    <a class="button button-light" href="mailto:parimal9822@gmail.com">Send an email <span aria-hidden="true">↗</span></a>
+                    <button class="button button-outline-light copy-email" type="button" data-email="parimal9822@gmail.com"><span class="copy-label">Copy email</span></button>
+                </div>
+                <div class="contact-links">
+                    <a href="https://linkedin.com/in/parimalchaudhari" target="_blank" rel="noopener noreferrer">LinkedIn <span>↗</span></a>
+                    <a href="https://github.com/Parimal2002" target="_blank" rel="noopener noreferrer">GitHub <span>↗</span></a>
+                    <a href="https://dribbble.com/parimal9822" target="_blank" rel="noopener noreferrer">Dribbble <span>↗</span></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer shell">
+        <a class="brand footer-brand" href="#home"><span class="brand-mark">PC</span><strong>Parimal Chaudhari</strong></a>
+        <p>Designed &amp; built with curiosity, coffee and clean logs.</p>
+        <p>© <span id="current-year"></span> Parimal Chaudhari</p>
+    </footer>
+
+    <div class="toast" role="status" aria-live="polite">Email copied to clipboard</div>
+    <script src="js/meyawo.js"></script>
+</body>
+</html>
